@@ -1,49 +1,49 @@
 body {
-  background-color: #EAE5E6;
-}
+  background-color: #F7F2F6; }
+
 /*/////////*/
 /*  Main  */
 .logo {
-  font-family: 'Candal', sans-serif;
-  color: #CC0056
-}
+  font-family: "Candal", sans-serif;
+  color: #3470C9; }
+
 .logo-b {
-  font-family: 'Open Sans Condensed', sans-serif;
-}
+  font-family: "Open Sans Condensed", sans-serif; }
+
 .lead-p {
-  line-height: 25px;
-  font-size: 28px;
-}
+  line-height: 22px;
+  font-size: 24px; }
+
 .who {
-  margin-top: 20px;
-}
+  margin-top: 20px; }
+
 .who h3 {
   line-height: 15px;
-  font-size: 26px;
-  margin: 0;
-}
+  font-size: 24px;
+  margin: 0; }
+
 .pill-set {
   margin-top: 30px;
-  text-align: center;
-}
+  text-align: center; }
+
 .pill {
   display: inline-block;
   padding: 5px 10px;
   margin: 10px 15px;
   border-radius: 5px;
-  background-color: #EAD0D5;
-  font-size: 18px;
-}
+  background-color: #F7F2F6;
+  font-size: 18px; }
+
 .pill:hover {
-  background-color: #CC0056; 
-}
+  background-color: #3470C9; }
+
 .pill a {
-  color: #521611;
-}
+  color: #C934BB; }
+
 .pill a:hover {
   text-decoration: none;
-  color: white;
-}
+  color: white; }
+
 /*//////////////////
 /*  Borrow.html  */
 .header {
@@ -51,123 +51,123 @@ body {
   height: 100%;
   min-width: 300px;
   font-size: 26px;
-  border-bottom: 1px solid #521611;
-  margin-bottom: 20px;
-}
+  border-bottom: 1px solid #C934BB;
+  margin-bottom: 20px; }
+
 .header-nav {
   width: 20%;
-  display: inline-block;
-}
+  display: inline-block; }
+
 .arrow {
   border: none;
   padding: 0 10px;
-  background-color: #EAE5E6 ;
-  color: #CC0056;
-  font-size: 40px;
-}
+  background-color: #F7F2F6;
+  color: #C934BB;
+  font-size: 40px; }
+
 .header-menu {
   width: 75%;
   display: inline-block;
   text-align: center;
-  border-left: 1px solid #521611;
-  border-right: 1px solid #521611;
-  border-radius: 5px;
-}
+  border-left: 1px solid #C934BB;
+  border-right: 1px solid #C934BB;
+  border-radius: 5px; }
+
 .stuff {
   width: 30%;
   min-height: 300px;
   display: inline-block;
   margin: 10px 10px;
-  background-color: #CDB7B5;
+  background-color: #3470C9;
   border-radius: 10px;
-}
+  color: #3470C9; }
+
 .stuff label {
   width: 30%;
   margin-right: 5px;
-  text-align: right;
-}
+  text-align: right; }
+
 .image-container {
   width: 90%;
-  min-height: 200px;
+  min-height: 150px;
   margin: 10px auto;
-  text-align: center;
-}
+  text-align: center; }
+
 .image-container img {
   max-width: 100%;
   max-height: 200px;
   background-position: center;
-  background-repeat: none;
-}
+  background-repeat: none; }
+
 .summary {
   margin: 15px 10px;
-}
+  padding: 5px 10px;
+  background-color: white;
+  border-radius: 10px; }
+
 .circle {
   width: 20px;
   height: 20px;
   display: inline-block;
   float: right;
-  border-radius: 50%;
-}
+  border-radius: 50%; }
+
 .available {
-  background-color: #70C934;  
-}
+  background-color: #70C934; }
+
 .unavailable {
-  background-color: #A82340;
-}
+  background-color: #C94334; }
 
 @media (max-width: 670px) {
   .stuff {
     width: 50%;
-    min-width: 200px;
-  }
+    min-width: 200px; }
   .header-nav {
-    width: 100%;
-  }
+    width: 100%; }
   .header-menu {
     display: block;
-    width: 100%
-  }
-}
+    width: 100%; } }
+
 @media (max-width: 500px) {
   .stuff {
-    width: 100%;
-  }
-}
+    width: 100%; } }
 
 /*Angular animate - Pills */
 /* now the element will fade out before it is removed from the DOM */
 /* The starting CSS styles for the enter animation */
 .fade.ng-enter {
-  transition:0.5s linear all;
-  opacity:0;
-}
- The finishing CSS styles for the enter animation 
+  transition: 0.5s linear all;
+  opacity: 0; }
+
+The finishing CSS styles for the enter animation
 .fade.ng-enter.ng-enter-active {
-  opacity:1;
-}
+  opacity: 1; }
+
 .fade.ng-leave {
-  transition:0.5s linear all;
-  opacity:1;
-}
+  transition: 0.5s linear all;
+  opacity: 1; }
+
 .fade.ng-leave.ng-leave-active {
-  opacity:0;
-}
+  opacity: 0; }
+
 /* there is no need to define anything inside of the destination
 CSS class since the keyframe will take charge of the animation */
 .fade.ng-leave {
   animation: my_fade_animation 0.5s linear;
-  -webkit-animation: my_fade_animation 0.5s linear;
-}
+  -webkit-animation: my_fade_animation 0.5s linear; }
 
 @keyframes my_fade_animation {
-  from { opacity:1; }
-  to { opacity:0; }
-}
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0; } }
 
 @-webkit-keyframes my_fade_animation {
-  from { opacity:1; }
-  to { opacity:0; }
-}
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0; } }
+
 /*///////////////////////////////
 // Angular animate - Page View */
 /*.container {

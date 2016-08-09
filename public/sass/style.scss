@@ -1,0 +1,220 @@
+// Variables //
+$font-stack-logo:  'Candal', sans-serif;
+$font-stack-logo2: 'Open Sans Condensed', sans-serif;
+// color scheme
+$color-primary: #3470C9;
+$color-secondary: #C934BB;
+$color-background: #F7F2F6;
+$color-available: #70C934;
+$color-unavailable: #C94334;
+
+//////////////
+/// SCSS ////
+////////////
+body {
+  background-color: $color-background;
+}
+/*/////////*/
+/*  Main  */
+.logo {
+  font-family: $font-stack-logo;
+  color: $color-primary;
+}
+.logo-b {
+  font-family: $font-stack-logo2;
+}
+.lead-p {
+  line-height: 22px;
+  font-size: 24px;
+}
+.who {
+  margin-top: 20px;
+}
+.who h3 {
+  line-height: 15px;
+  font-size: 24px;
+  margin: 0;
+}
+.pill-set {
+  margin-top: 30px;
+  text-align: center;
+}
+.pill {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 10px 15px;
+  border-radius: 5px;
+  background-color: $color-background;
+  font-size: 18px;
+}
+.pill:hover {
+  background-color: $color-primary; 
+}
+.pill a {
+  color: $color-secondary;
+}
+.pill a:hover {
+  text-decoration: none;
+  color: white;
+}
+/*//////////////////
+/*  Borrow.html  */
+.header {
+  width: 100%;
+  height: 100%;
+  min-width: 300px;
+  font-size: 26px;
+  border-bottom: 1px solid $color-secondary;
+  margin-bottom: 20px;
+}
+.header-nav {
+  width: 20%;
+  display: inline-block;
+}
+.arrow {
+  border: none;
+  padding: 0 10px;
+  background-color: $color-background;
+  color: $color-secondary;
+  font-size: 40px;
+}
+.header-menu {
+  width: 75%;
+  display: inline-block;
+  text-align: center;
+  border-left: 1px solid $color-secondary;
+  border-right: 1px solid $color-secondary;
+  border-radius: 5px;
+}
+.stuff {
+  width: 30%;
+  min-height: 300px;
+  display: inline-block;
+  margin: 10px 10px;
+  background-color: $color-primary;
+  border-radius: 10px;
+  color: $color-primary;
+}
+.stuff label {
+  width: 30%;
+  margin-right: 5px;
+  text-align: right;
+}
+.image-container {
+  width: 90%;
+  min-height: 150px;
+  margin: 10px auto;
+  text-align: center;
+}
+.image-container img {
+  max-width: 100%;
+  max-height: 200px;
+  background-position: center;
+  background-repeat: none;
+}
+.summary {
+  margin: 15px 10px;
+  padding: 5px 10px;
+  background-color: white;
+  border-radius: 10px;
+}
+.circle {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  float: right;
+  border-radius: 50%;
+}
+.available {
+  background-color: $color-available;  
+}
+.unavailable {
+  background-color: $color-unavailable;
+}
+
+@media (max-width: 670px) {
+  .stuff {
+    width: 50%;
+    min-width: 200px;
+  }
+  .header-nav {
+    width: 100%;
+  }
+  .header-menu {
+    display: block;
+    width: 100%
+  }
+}
+@media (max-width: 500px) {
+  .stuff {
+    width: 100%;
+  }
+}
+
+/*Angular animate - Pills */
+/* now the element will fade out before it is removed from the DOM */
+/* The starting CSS styles for the enter animation */
+.fade.ng-enter {
+  transition:0.5s linear all;
+  opacity:0;
+}
+ The finishing CSS styles for the enter animation 
+.fade.ng-enter.ng-enter-active {
+  opacity:1;
+}
+.fade.ng-leave {
+  transition:0.5s linear all;
+  opacity:1;
+}
+.fade.ng-leave.ng-leave-active {
+  opacity:0;
+}
+/* there is no need to define anything inside of the destination
+CSS class since the keyframe will take charge of the animation */
+.fade.ng-leave {
+  animation: my_fade_animation 0.5s linear;
+  -webkit-animation: my_fade_animation 0.5s linear;
+}
+
+@keyframes my_fade_animation {
+  from { opacity:1; }
+  to { opacity:0; }
+}
+
+@-webkit-keyframes my_fade_animation {
+  from { opacity:1; }
+  to { opacity:0; }
+}
+/*///////////////////////////////
+// Angular animate - Page View */
+/*.container {
+  position: relative;
+}
+.view-frame.ng-enter,
+.view-frame.ng-leave {
+  background: white;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.view-frame.ng-enter {
+  animation: 1s fade-in;
+  z-index: 100;
+}
+
+.view-frame.ng-leave {
+  animation: 1s fade-out;
+  z-index: 99;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}*/
