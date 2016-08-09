@@ -1,0 +1,33 @@
+{
+  "name": "BegBorrowNeverSteal",
+  "version": "1.0.0",
+  "description": "A site where a community of friends can list all the items they have that they are willing to lend to their friends. Tech: Javascript, Node/Express",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kamsci/BegBorrowNeverSteal.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kamsci/BegBorrowNeverSteal/issues"
+  },
+  "homepage": "https://github.com/kamsci/BegBorrowNeverSteal#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "morgan": "^1.7.0",
+    "pg": "^6.0.3",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^3.23.6"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.0.2",
+    "supertest": "^2.0.0"
+  }
+}

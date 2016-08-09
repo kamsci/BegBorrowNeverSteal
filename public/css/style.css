@@ -1,0 +1,13 @@
+.logo {
+  color: #5890A8;
+}
+.who {
+  margin-top: 20px;
+}
+.pill {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #5890A8;
+  color: white;
+}
