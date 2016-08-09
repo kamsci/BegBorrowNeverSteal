@@ -1,4 +1,4 @@
-var BorrowApp = angular.module('BorrowApp', ['ui.router', 'ngAnimate']);
+var BorrowApp = angular.module('BorrowApp', ['ngAnimate', 'ui.router']);
 
 BorrowApp.config(['$stateProvider', '$urlRouterProvider', 
   function($stateProvider, $urlRouterProvider) {
@@ -21,6 +21,9 @@ BorrowApp.config(['$stateProvider', '$urlRouterProvider',
 
 BorrowApp.controller('MainCtrl', ['$scope', function($scope) {
   $scope.borrow = "BegBorrowNeverSteal";
+  // fad in and out pills
+  $scope.bool = true;
+  console.log("StartBool", $scope.bool);
   // add search for users
   $scope.allUsers = ['Amy', 'Jon', 'Travis'];
   // function for sending user selection to borrow page

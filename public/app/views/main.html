@@ -1,11 +1,16 @@
-<p class="lead-p">Because you don't have to steal when you can borrow from a friend who already has it! Check out what your friends can lend you and add items to lend to your friends.</p>
-<!-- <div><a href="/borrow-stuff">Borrow Stuff</a></div> -->
+<p class="lead-p">Because you don't have to steal when you can borrow from a friend! Find out what your friends can lend you and decide what you want to lend to your friends.</p>
 
 <div class="text-center who">
 <h3>Pray tell,</h3>
 <h3>who are you?</h3>
+<div class="pill-set">
+  <div ng-show="bool" ng-repeat="user in allUsers" class="pill"><a href="#/borrow-stuff" ng-click="bool='false'">{{ user }}</a></div>
+</div>
+
 <div class="pill-set" >
 <!-- track by user_id -->
-  <div class="phone-list-item pill" ng-repeat="user in allUsers" ng-click="userSelect()"><a href="#/borrow-stuff">{{ user }}</a></div>
+  <div ng-repeat="user in allUsers"><a href="#/borrow-stuff" class="pill">{{ user }}</a></div>
 </div>
 </div>
+
+<div 
