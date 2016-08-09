@@ -15,7 +15,7 @@ body {
 }
 .who h3 {
   line-height: 15px;
-  font-size: 25px;
+  font-size: 26px;
   margin: 0;
 }
 .pill-set {
@@ -28,6 +28,7 @@ body {
   margin: 10px 15px;
   border-radius: 5px;
   background-color: #CC0056;
+  font-size: 18px;
   color: white;
 }
 .pill a {
