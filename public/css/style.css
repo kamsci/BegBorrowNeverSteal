@@ -1,17 +1,39 @@
 body {
   background-color: #EAE5E6;
 }
-
+/*/////////*/
+/*  Main  */
 .logo {
   color: #CC0056
+}
+.lead-p {
+  line-height: 25px;
+  font-size: 30px;
 }
 .who {
   margin-top: 20px;
 }
+.who h3 {
+  line-height: 15px;
+  font-size: 25px;
+  margin: 0;
+}
+.pill-set {
+  margin-top: 30px;
+  text-align: center;
+}
 .pill {
   display: inline-block;
   padding: 5px 10px;
+  margin: 10px 15px;
   border-radius: 5px;
   background-color: #CC0056;
+  color: white;
+}
+.pill a {
+  color: #EAD0D5;
+}
+.pill a:hover {
+  text-decoration: none;
   color: white;
 }
