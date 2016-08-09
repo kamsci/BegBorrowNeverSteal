@@ -1,1 +1,32 @@
-<h2>{{ borrowStuff }}</h2>
+<div class="header">
+  <div class="header-nav">
+    <button class="arrow">&larr;</button>
+    <button class="arrow">&rarr;</button>
+  </div>
+  <div class="header-menu">{{ borrowStuff }}</div>
+</div>
+
+<div class="stuff">
+  <div class= "image-container">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/1/13/Bundt_cake_pan.jpg">
+  </div>
+  <div class="summary">
+    <h4>Bunt Cake Pan</h4>
+    <label>Owner:  </label><span>{{ allUsers[2] }}</span>
+    <br>
+    <label>Borrower:  </label><span>  Available</span>
+    <div class="circle available"></div>
+  </div>
+</div>
+<div class="stuff">
+  <div class= "image-container">
+    <img src="http://toolguyd.com/blog/wp-content/uploads/2011/06/Dewalt-DC725KA-18V-Cordless-Hammer-Drill-Driver.jpg">
+  </div>
+  <div class="summary">
+    <h4>Drill</h4>
+    <label>Owner:  </label><span>{{ allUsers[1] }}</span>
+    <br>
+    <label>Borrower:  </label><span>{{ allUsers[0] }}</span>
+    <div class="circle unavailable"></div>
+  </div>
+</div>

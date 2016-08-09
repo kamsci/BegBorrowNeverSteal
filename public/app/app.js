@@ -34,4 +34,6 @@ BorrowApp.controller('MainCtrl', ['$scope', function($scope) {
 
 BorrowApp.controller('BorrowCtrl', ['$scope', function($scope) {
   $scope.borrowStuff = " Stuff to Borrow";
+    // add search for users
+  $scope.allUsers = ['Amy', 'Jon', 'Travis'];
 }]); // end BorrowCtrl
