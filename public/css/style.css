@@ -1,5 +1,9 @@
+body {
+  background-color: #EAE5E6;
+}
+
 .logo {
-  color: #5890A8;
+  color: #CC0056
 }
 .who {
   margin-top: 20px;
@@ -8,6 +12,6 @@
   display: inline-block;
   padding: 5px 10px;
   border-radius: 5px;
-  background-color: #5890A8;
+  background-color: #CC0056;
   color: white;
 }
