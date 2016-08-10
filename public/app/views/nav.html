@@ -3,9 +3,25 @@
     <button ng-click="prevState()" class="arrow">&larr;</button>
     <button ng-click="nextState()" class="arrow">&rarr;</button>
   </div>
-  <div class="header-menu">{{ borrowStuff }}</div>
+  <div class="header-menu">{{ navTitle }}</div>
+  <!-- Button trigger modal -->
+  <div class="header-new modal-trigger" type="button" ng-click="open()"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></div>
 </div>
 
-<div ui-view></div> 
-<!-- <div ui-view="stuff.lend"></div>
-<div ui-view="stuff.borrowed"></div>  --> 
+<div ui-view></div>
+
+<!-- Modal -->
+<div>
+  <script type="text/ng-template" id="newItemModal.html">
+      <div class="modal-header">
+          <h3 class="modal-title">Add stuff to Lend</h3>
+      </div>
+      <div class="modal-body">
+          <h2>Soul meets Body</h2>
+      </div>
+      <div class="modal-footer">
+          <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+          <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+      </div>
+  </script>
+</div>

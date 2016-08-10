@@ -79,16 +79,29 @@ body {
   font-size: 40px;
 }
 .header-menu {
-  width: 75%;
+  width: 60%;
   display: inline-block;
   text-align: center;
   border-left: 1px solid $color-secondary;
   border-right: 1px solid $color-secondary;
   border-radius: 5px;
 }
+.header-new {
+  // width: 20%;
+  cursor: pointer;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  margin-left: 20px;
+  background-color: none !important;
+  border: none;
+}
+.fa {
+  color: $color-secondary;
+}
 .stuff {
-  width: 30%;
-  min-height: 300px;
+  width: 250px;
+  height: 350px;
   display: inline-block;
   margin: 10px 10px;
   background-color: $color-primary;
@@ -101,22 +114,28 @@ body {
   text-align: right;
 }
 .image-container {
-  width: 90%;
-  min-height: 150px;
+  max-width: 230px;
+  max-height: 150px;
   margin: 10px auto;
   text-align: center;
+  border-radius: 10px;
 }
 .image-container img {
   max-width: 100%;
-  max-height: 200px;
+  max-height: 150px;
   background-position: center;
   background-repeat: none;
 }
 .summary {
+  width: 230px;
+  height: 150px;
   margin: 15px 10px;
   padding: 5px 10px;
   background-color: white;
   border-radius: 10px;
+}
+.summary-borrow {
+  margin-top: 20px;
 }
 .circle {
   width: 20px;
@@ -133,10 +152,10 @@ body {
 }
 
 @media (max-width: 670px) {
-  .stuff {
-    width: 50%;
-    min-width: 200px;
-  }
+  // .stuff {
+  //   width: 50%;
+  //   min-width: 200px;
+  // }
   .header-nav {
     width: 100%;
   }
@@ -145,11 +164,11 @@ body {
     width: 100%
   }
 }
-@media (max-width: 500px) {
-  .stuff {
-    width: 100%;
-  }
-}
+// @media (max-width: 500px) {
+//   .stuff {
+//     width: 100%;
+//   }
+// }
 
 /*Angular animate - Pills */
 /* now the element will fade out before it is removed from the DOM */

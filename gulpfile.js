@@ -15,7 +15,7 @@ gulp.task('build', function() {
   gulp.src(['public/app/**/*.js', 'public/js/**/*.js'])
     .pipe(sourcemaps.init())
     .pipe(concat('concat.js'))
-    .pipe(uglify())
+    // .pipe(uglify())
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('public/dist/js'));
     // './' becomes 'dist'
