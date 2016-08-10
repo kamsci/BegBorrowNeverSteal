@@ -1,32 +1,15 @@
-<div class="header">
-  <div class="header-nav">
-    <button class="arrow">&larr;</button>
-    <button class="arrow">&rarr;</button>
-  </div>
-  <div class="header-menu">{{ borrowStuff }}</div>
-</div>
-
-<div class="stuff">
+<div class="stuff" ng-repeat="item in items track by item.id">
   <div class= "image-container">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/1/13/Bundt_cake_pan.jpg">
+    <img src="{{ item.imageUrl }}">
   </div>
   <div class="summary">
-    <h4>Bunt Cake Pan</h4>
-    <label>Owner:  </label><span>{{ allUsers[2] }}</span>
+    <h4>{{ item.name }}</h4>
+    <label>Owner:</label><span>{{ item.userId }}</span>
     <br>
-    <label>Borrower:  </label><span>  Available</span>
-    <div class="circle available"></div>
-  </div>
-</div>
-<div class="stuff">
-  <div class= "image-container">
-    <img src="https://i.ytimg.com/vi/7AlbbJAMMgI/maxresdefault.jpg">
-  </div>
-  <div class="summary">
-    <h4>Drill</h4>
-    <label>Owner:  </label><span>{{ allUsers[1] }}</span>
-    <br>
-    <label>Borrower:  </label><span>{{ allUsers[0] }}</span>
-    <div class="circle unavailable"></div>
+    <label>Borrower:</label><span>{{ item.borrowed }}</span>
+    <div ng-class="{ unavailable: item.borrowed, available: !item.borrowed }" class="circle"></div>
+    <div ng-if="item.borrowed">
+      <label>since:</label><span>{{ item.dateBorrowed | date }}</span>
+    </div>
   </div>
 </div>

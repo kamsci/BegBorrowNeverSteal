@@ -4,12 +4,16 @@
 <h3>Pray tell,</h3>
 <h3>who are you?</h3>
 <div class="pill-set">
-  <div ng-show="bool" ng-repeat="user in allUsers" class="pill"><a href="#/borrow-stuff" ng-click="bool='false'">{{ user.firstName }} {{ user.lastName }}</a></div>
-</div>
+<!--   <div ng-show="bool" ng-repeat="user in allUsers track by user.id" class="pill"><a href="#/borrow-stuff" ng-click="bool='false'">{{ user.firstName }} {{ user.lastName }}</a></div>
+</div> -->
 
 <div class="pill-set" >
 <!-- track by user_id -->
-  <div ng-repeat="user in allUsers track by user.id"><a href="#/borrow-stuff" class="pill" ng-click="(selectUser(user.id)">{{ user.firstName }} {{ user.lastName }}</a></div>
+  <div ng-repeat="user in allUsers track by user.id"> 
+    <button ng-click="select(user.id)" class="pill">  
+      {{ user.firstName }} {{ user.lastName }}
+    </button>
+  </div>
 </div>
 </div>
 

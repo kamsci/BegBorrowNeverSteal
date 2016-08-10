@@ -14,7 +14,7 @@ app.use(require('morgan')('dev'));
 ////////////////////////////////////////////////
 
 // Controllers
-app.use('/api/borrow-stuff', require('./controllers/borrow.js'));
+app.use('/api', require('./controllers/borrow.js'));
 
 // Call Angular for front end routing
 app.get('/*', function(req, res) {
