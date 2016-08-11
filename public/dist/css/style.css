@@ -5,7 +5,8 @@ body {
 /*  Main  */
 .logo {
   font-family: "Candal", sans-serif;
-  color: #3470C9; }
+  color: #3470C9;
+  cursor: pointer; }
 
 .logo-b {
   font-family: "Open Sans Condensed", sans-serif;

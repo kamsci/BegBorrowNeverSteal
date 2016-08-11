@@ -19,15 +19,18 @@ BorrowApp.config(['$stateProvider', '$urlRouterProvider',
     })
     .state('stuff.search', {
       url: 'stuff/search',
-      templateUrl: 'app/views/borrow.html'
+      templateUrl: 'app/views/borrow.html',
+      controller: 'SearchCtrl'
     })
     .state('stuff.lend', {
       url: 'stuff/lend',
       templateUrl: 'app/views/lend.html',
+      controller: 'LendCtrl'
     })
     .state('stuff.borrowed', {
       url: 'stuff/borrowed',
-      templateUrl: 'app/views/borrowed.html'
+      templateUrl: 'app/views/borrowed.html',
+      controller: 'BorrowedCtrl'
     })
 
   }]); // END config
@@ -36,7 +39,7 @@ BorrowApp.config(['$stateProvider', '$urlRouterProvider',
 //     CONTROLLERS    //
 ///////////////////////
 
-// MAIN CTRL //
+//// MAIN CTRL ////
 BorrowApp.controller('MainCtrl', ['$scope', 'Users', 'selectUser', '$state', function($scope, Users, selectUser, $state) {
   $scope.borrow = "BegBorrowNeverSteal";
   // fad in and out pills
@@ -57,14 +60,15 @@ BorrowApp.controller('MainCtrl', ['$scope', 'Users', 'selectUser', '$state', fun
   };
 }]); // END MainCtrl
 
-// BORROW CTRL //
+
+////// BORROW CTRL //////
 BorrowApp.controller('BorrowCtrl', 
   ['$scope', '$http', '$state', '$uibModal', '$log', 'selectUser', 
   function($scope, $http, $state, $uibModal, $log, selectUser) {
-  
-  $scope.navTitle = "Stuff to Borrow";
 
   // NAVIGATE
+  $scope.navTitle = "Stuff to Borrow";
+
   $scope.home = function() {
     $state.go('main');
   };
@@ -108,15 +112,6 @@ BorrowApp.controller('BorrowCtrl',
     $scope.titleChange(state);
   };
 
-  $scope.checkInOrOut = function(id, borrowed) {
-    // console.log("id, borrowed", id, borrowed);
-    //   $http.post('/api/edit-stuff/' + id, borrowed).then(function(data) {
-    //     console.log("success Edit", data)
-    //   }, function(err) {
-    //     console.log("Error edit", err);
-    //   });
-    
-  }
   // NEW ITEM MODAL
   // $scope.animationsEnabled = true;
 
@@ -130,8 +125,23 @@ BorrowApp.controller('BorrowCtrl',
     });
   };
 
-  // EDIT BORROW MODAL
+  $scope.createItem = function(newItem){
+    // Send form with newItem info to backend
+    $http.post('/api/new-stuff/', $scope.newItem)
+    .then(function success(res) {
+      console.log("Post Success", res);
+    }, function error(err){
+      alert("Error: Item was not created");
+      console.log("Post Error", err);
+    });    
+  }
+}]); // END BorrowCtrl
 
+
+//// SEARCH CTRL ////
+BorrowApp.controller('SearchCtrl', 
+  ['$scope', '$http', 'selectUser',
+  function($scope, $http, selectUser) {
 
   // GET USER SELECTED
   var id = selectUser.getId();
@@ -140,24 +150,51 @@ BorrowApp.controller('BorrowCtrl',
       console.log('Data1', data);
       $scope.items = data;
     });
-  // Items.query(function success(data) {
-  //   $scope.items = data;
-  // });
-  console.log("id", id);
+
+}]); // END SearchCtrl
+
+  
+//// LEND CTRL ////
+BorrowApp.controller('LendCtrl', 
+  ['$scope','$http', '$uibModal', '$log', 'selectUser', 
+  function($scope, $http, $uibModal, $log, selectUser) {
+
+  var id = selectUser.getId();
+
   // GET USER LEND
   $http.get('/api/lend-stuff/' + id).success(function(data, status) {
     // console.log("myItems", data);
     $scope.myItems = data;
   });
+  $scope.checkInOrOut = function(id, borrowed) {
+    // console.log("id, borrowed", id, borrowed);
+    //   $http.post('/api/edit-stuff/' + id, borrowed).then(function(data) {
+    //     console.log("success Edit", data)
+    //   }, function(err) {
+    //     console.log("Error edit", err);
+    //   }); 
+  }
+
+  // EDIT LEND STATUS MODAL
+
+}]); // END LendCtrl
+
+
+//// BORROWED CTRL ////
+BorrowApp.controller('BorrowedCtrl', 
+  ['$scope', '$http', 'selectUser', 
+  function($scope, $http, selectUser) {
+
+  var id = selectUser.getId();
 
   $http.get('/api/borrowed-stuff/' + id).success(function(data, status) {
     $scope.myBorrowedItems = data;
-  })
-}]); // END BorrowCtrl
+  });
+
+}]); // END BorrowedCtrl
 
 
-// MODAL INSTANCE CTRL
-
+//// MODAL INSTANCE CTRL ////
 BorrowApp.controller('ModalInstanceCtrl', ['$scope', '$http', '$uibModalInstance', 'selectUser', 
   function($scope, $http, $uibModalInstance, selectUser) {
   var id = selectUser.getId();
@@ -176,17 +213,6 @@ BorrowApp.controller('ModalInstanceCtrl', ['$scope', '$http', '$uibModalInstance
     borrowerID: '',
     dateBorrowed: ''
   };
-
-  $scope.createItem = function(newItem){
-    // Send form with newItem info to backend
-    $http.post('/api/new-stuff/', $scope.newItem)
-    .then(function success(res) {
-      console.log("Post Success", res);
-    }, function error(err){
-      alert("Error: Item was not created");
-      console.log("Post Error", err);
-    });    
-  }
 
   $scope.editBorrow = function(borrowItemState) {
     // update borrow status of item
@@ -208,10 +234,11 @@ BorrowApp.controller('ModalInstanceCtrl', ['$scope', '$http', '$uibModalInstance
 ///////////////////////////////
 
 // FACTORIES
+
 // Gets list of all users and sends to MAIN CTRL
 BorrowApp.factory('Users', ['$resource', function($resource) {
   return $resource('/api/users');
-}]);
+}]); // END Users factory
 
 // // Refactored - now used $http to call exress instead
 // BorrowApp.factory('Items', ['$resource', function($resource) {
@@ -219,6 +246,7 @@ BorrowApp.factory('Users', ['$resource', function($resource) {
 // }]);
 
 // SERVICES
+
 // Sets and gets Id for user selected on main.html
 BorrowApp.service('selectUser', [function() {
   this.setId = function(id) {
@@ -227,4 +255,4 @@ BorrowApp.service('selectUser', [function() {
   this.getId = function(){
     return this.id;
   }
-}]);
+}]); // END selectUser service
