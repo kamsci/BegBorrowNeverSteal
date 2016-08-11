@@ -150,14 +150,13 @@ BorrowApp.controller('LendCtrl',
 
   var id = selectUser.getId();
 
-  // GET USER LEND
+  // GET USER LEND STUFF
   $http.get('/api/lend-stuff/' + id).success(function(data, status) {
     // console.log("myItems", data);
     $scope.myItems = data;
   });
 
   // EDIT LEND STATUS MODAL
-
   // $scope.animationsEnabled = true;
 
   $scope.open = function(size) {
@@ -169,26 +168,6 @@ BorrowApp.controller('LendCtrl',
       resolve: {}
     });
   };
-
-  // $scope.createItem = function(newItem){
-  //   // Send form with newItem info to backend
-  //   $http.post('/api/new-stuff/', $scope.newItem)
-  //   .then(function success(res) {
-  //     console.log("Post Success", res);
-  //   }, function error(err){
-  //     alert("Error: Item was not created");
-  //     console.log("Post Error", err);
-  //   });    
-  // }
-  $scope.checkInOrOut = function(id, borrowed) {
-    // console.log("id, borrowed", id, borrowed);
-    //   $http.post('/api/edit-stuff/' + id, borrowed).then(function(data) {
-    //     console.log("success Edit", data)
-    //   }, function(err) {
-    //     console.log("Error edit", err);
-    //   }); 
-  }
-
 
 }]); // END LendCtrl
 
@@ -208,10 +187,12 @@ BorrowApp.controller('BorrowedCtrl',
 
 
 //// MODAL INSTANCE CTRL ////
-BorrowApp.controller('ModalInstanceCtrl', ['$scope', '$http', '$uibModalInstance', 'selectUser', 
-  function($scope, $http, $uibModalInstance, selectUser) {
+BorrowApp.controller('ModalInstanceCtrl', [
+  '$scope', '$http', '$uibModalInstance', 'Users', 'selectUser', 
+  function($scope, $http, $uibModalInstance, Users, selectUser) {
   var id = selectUser.getId();
 
+  // NEW ITEM
   $scope.newItem = {
     user_id: id,
     name: '',
@@ -231,18 +212,26 @@ BorrowApp.controller('ModalInstanceCtrl', ['$scope', '$http', '$uibModalInstance
     });    
   }
 
+  // LEND ITEM
+  // Users to lend to
+    Users.query(function success(data) {
+      $scope.usersToLend = data;
+  }, function error(error) {
+    console.log("Error usersToLend", error);
+  });
+
   $scope.borrowItemState = {
     item_id: '',
-    borrowed: '',
-    borrowerID: '',
-    dateBorrowed: ''
+    borrowerID: ''
   };
 
-  $scope.editBorrow = function(borrowItemState) {
+  $scope.lendItem = function(id) {
     // update borrow status of item
-    $http.put('/api/edit-borrow/')
-  }
+    console.log("Lending..");
+    // $http.put('/api/edit-borrow/')
+  };
 
+  // OPEN & CLOSE BUTTONS
   $scope.ok = function(){
     $uibModalInstance.close();
   };

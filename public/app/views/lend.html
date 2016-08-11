@@ -9,8 +9,8 @@
         <h4>{{ item.name }}</h4>
         <label>Owner:</label><span>{{ item.user.firstName}} {{ item.user.lastName }}</span>
         <div class="btn-container">
-          <button ng-if="item.borrowed" class="b-btn btn btn-success" ng-click="checkInOrOut(item.id, item.borrowed)">In</button>
-          <button ng-if="!item.borrowed" class="b-btn btn btn-danger" ng-click="checkInOrOut(item.id, item.borrowed)">Out</button>
+          <button ng-if="item.borrowed" class="b-btn btn btn-success" ng-click="checkInOrOut(item.id, item.borrowed)">Return</button>
+          <button ng-if="!item.borrowed" class="b-btn btn btn-danger" ng-click="open()">Lend</button>
         </div>
       </div>
       <div class="summary-borrow">
@@ -23,3 +23,26 @@
     </div>
   </div>
 </div> 
+
+<!-- EDIT LEND MODAL -->
+<div>
+  <script type="text/ng-template" id="editLendModal.html">
+    <div class="modal-header">
+      <h3 class="modal-title">Lend this to..</h3>
+      <p>If you want to use the item yourself, select yourself!</p>
+    </div>
+    <div class="modal-body">
+      <form ng-submit="lendItem(item.id)">
+        <div class="form-group">
+          <select name="lendTo" id="lendTo" class="form-control" ng-model="borrowItemState.borrowerID">
+            <option value="">Lend to...</option>
+            <option ng-repeat="user in usersToLend track by user.id" value="{{ user.id }}">{{ user.firstName }} {{user.lastName }}</option>
+          </select>
+        </div>
+        <!-- Submit & cancel Buttons -->
+        <button class="btn btn-primary" type="submit" ng-click="ok()">Submit</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+      </form>
+    </div>
+  </script>
+</div>

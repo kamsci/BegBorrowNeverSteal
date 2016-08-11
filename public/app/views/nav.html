@@ -1,6 +1,6 @@
 <h2 class="text-right logo" ng-click="home()">BegBorrow<span class="logo-b">NeverSteal</span></h2>
 
-<!-- Nav -->
+<!-- NAV -->
 <div class="header">
   <div class="header-nav">
     <button ng-click="prevState()" class="arrow">&larr;</button>
@@ -13,7 +13,7 @@
 
 <div ui-view></div>
 
-<!-- Modal -->
+<!-- NEW ITEM MODAL -->
 <div>
   <script type="text/ng-template" id="newItemModal.html">
     <div class="modal-header">
@@ -21,12 +21,12 @@
     </div>
     <div class="modal-body">
       <form ng-submit="createItem()">
+      <!-- Name -->
         <div class="form-group">
-          <!-- <label for="name">Name of Stuff</label> -->
           <input type="text" name="name" id="name" placeholder="Name of Stuff" class="form-control" ng-model="newItem.name">
         </div>
+      <!-- Category -->
         <div class="form-group">
-          <!-- <label for="category">Category</label> -->
           <select name="category" id="category" class="form-control" ng-model="newItem.category">
             <option value="">-- Select Best Category --</option>
             <option value="kitchen">Kitchen</option>
@@ -37,14 +37,15 @@
             <option value="misc">Misc</option>
           </select>
         </div>
+      <!-- Description -->
         <div class="form-group">
-          <!-- <label for="description">Description</label> -->
           <textarea name="description" id="description" placeholder="Description" class="form-control" ng-model="newItem.description"></textarea>
-        </div>   
+        </div> 
+      <!-- ImageUrl   -->
         <div class="form-group">
-          <!-- <label for="imageUrl">Image Url</label> -->
           <input type="url" name="imageUrl" id="imageUrl" placeholder="Image url (http://)" class="form-control" ng-model="newItem.imageUrl">
         </div>
+      <!-- Submit & cancel Buttons -->
         <button class="btn btn-primary" type="submit" ng-click="ok()">Submit</button>
         <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
       </form>
