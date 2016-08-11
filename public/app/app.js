@@ -109,12 +109,16 @@ BorrowApp.controller('BorrowCtrl',
   };
 
   $scope.checkInOrOut = function(id, borrowed) {
-    console.log("id, borrowed", id, borrowed);
+    // console.log("id, borrowed", id, borrowed);
+    //   $http.post('/api/edit-stuff/' + id, borrowed).then(function(data) {
+    //     console.log("success Edit", data)
+    //   }, function(err) {
+    //     console.log("Error edit", err);
+    //   });
     
-    $http.put('/api/edit/stuff/' + id)
   }
   // NEW ITEM MODAL
-  $scope.animationsEnabled = true;
+  // $scope.animationsEnabled = true;
 
   $scope.open = function(size) {
     var modalInstance = $uibModal.open({
@@ -125,6 +129,9 @@ BorrowApp.controller('BorrowCtrl',
       resolve: {}
     });
   };
+
+  // EDIT BORROW MODAL
+
 
   // GET USER SELECTED
   var id = selectUser.getId();
@@ -160,21 +167,30 @@ BorrowApp.controller('ModalInstanceCtrl', ['$scope', '$http', '$uibModalInstance
     name: '',
     category: '',
     description: '',
-    imageUrl: '',
-    active: true,
-    borrowed: false,
-    dateBorrowed: null,
-    borrowerID: null
+    imageUrl: ''
   };
+
+  $scope.borrowItemState = {
+    item_id: '',
+    borrowed: '',
+    borrowerID: '',
+    dateBorrowed: ''
+  };
+
   $scope.createItem = function(newItem){
     // Send form with newItem info to backend
     $http.post('/api/new-stuff/', $scope.newItem)
     .then(function success(res) {
-      console.log("Post Succes", res);
+      console.log("Post Success", res);
     }, function error(err){
       alert("Error: Item was not created");
       console.log("Post Error", err);
     });    
+  }
+
+  $scope.editBorrow = function(borrowItemState) {
+    // update borrow status of item
+    $http.put('/api/edit-borrow/')
   }
 
   $scope.ok = function(){
