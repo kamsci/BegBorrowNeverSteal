@@ -12,7 +12,7 @@ gulp.task('build', function() {
   // include any number or depth of folders with .js
   // in src, include angular files and other files you want in gulp
   // gulp.src(['src/**/*.js'])
-  gulp.src(['public/app/**/*.js', 'public/js/**/*.js'])
+  gulp.src(['public/app/app.js', 'public/app/controllers/**/*.js', 'public/js/**/*.js'])
     .pipe(sourcemaps.init())
     .pipe(concat('concat.js'))
     // .pipe(uglify())

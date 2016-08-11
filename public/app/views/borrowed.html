@@ -1,19 +1,17 @@
-<div>
-  <div class="stuff" 
-    ng-repeat="item in myBorrowedItems track by item.id">
-    <div class= "image-container">
-      <img src="{{ item.imageUrl }}">
-    </div>
-    <div class="summary">
-      <h4>{{ item.name }}</h4>
-      <label>Owner:</label><span>{{ item.user.firstName}} {{ item.user.lastName }}</span>
-      <div class="summary-borrow">
-        <label>Borrower:</label><span>{{ item.borrower.firstName }} {{ item.borrower.lastName }}</span>
-        <div ng-class="{ unavailable: item.borrowed, available: !item.borrowed }" class="circle"></div>
-        <div ng-if="item.borrowed">
-          <label>since:</label><span>{{ item.dateBorrowed | date }}</span>
-        </div>
+<div class="stuff" 
+  ng-repeat="item in myBorrowedItems track by item.id">
+  <div class= "image-container">
+    <img src="{{ item.imageUrl }}">
+  </div>
+  <div class="summary">
+    <h4>{{ item.name }}</h4>
+    <label>Owner:</label><span>{{ item.user.firstName}} {{ item.user.lastName }}</span>
+    <div class="summary-borrow">
+      <label>Borrower:</label><span>{{ item.borrower.firstName }} {{ item.borrower.lastName }}</span>
+      <div ng-class="{ unavailable: item.borrowed, available: !item.borrowed }" class="circle"></div>
+      <div ng-if="item.borrowed">
+        <label>since:</label><span>{{ item.dateBorrowed | date }}</span>
       </div>
     </div>
   </div>
-</div> 
+</div>

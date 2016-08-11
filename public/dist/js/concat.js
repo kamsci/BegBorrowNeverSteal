@@ -35,33 +35,35 @@ BorrowApp.config(['$stateProvider', '$urlRouterProvider',
 
   }]); // END config
 
-/////////////////////////
-//     CONTROLLERS    //
-///////////////////////
+/////////////////////////////////
+//     Factories & Services   //
+///////////////////////////////
 
-//// MAIN CTRL ////
-BorrowApp.controller('MainCtrl', ['$scope', 'Users', 'selectUser', '$state', function($scope, Users, selectUser, $state) {
-  $scope.borrow = "BegBorrowNeverSteal";
-  // fad in and out pills
-  $scope.bool = true;
-  // include User from resource factory in array
-  // query express Users for users
-  Users.query(function success(data) {
-    $scope.allUsers = data;
-  }, function error(error) {
-    console.log("Error allUsers", error);
-  });
+// FACTORIES
 
-  // function for sending user selection to borrow page
-  $scope.select = function(id){
-    // console.log("state", $state);
-    selectUser.setId(id);
-    $state.go('stuff.search');
-  };
-}]); // END MainCtrl
+// Gets list of all users and sends to MAIN CTRL
+BorrowApp.factory('Users', ['$resource', function($resource) {
+  return $resource('/api/users');
+}]); // END Users factory
 
+// // Refactored - now used $http to call exress instead
+// BorrowApp.factory('Items', ['$resource', function($resource) {
+//   return $resource('/api/borrow-stuff');
+// }]);
 
+// SERVICES
+
+// Sets and gets Id for user selected on main.html
+BorrowApp.service('selectUser', [function() {
+  this.setId = function(id) {
+    this.id = id;
+  }
+  this.getId = function(){
+    return this.id;
+  }
+}]); // END selectUser service
 ////// BORROW CTRL //////
+
 BorrowApp.controller('BorrowCtrl', 
   ['$scope', '$http', '$state', '$uibModal', '$log', 'selectUser', 
   function($scope, $http, $state, $uibModal, $log, selectUser) {
@@ -113,37 +115,34 @@ BorrowApp.controller('BorrowCtrl',
   };
 
   // NEW ITEM MODAL
-  // $scope.animationsEnabled = true;
+  $scope.animationsEnabled = false;
 
-  $scope.open = function(size) {
+  $scope.open = function() {
     var modalInstance = $uibModal.open({
       animation: $scope.animationsEnabled,
-      templateUrl: 'newItemModal.html',
+      templateUrl: 'app/templates/newItemModal.html',
       controller: 'ModalInstanceCtrl',
-      size: size,
       resolve: {}
     });
   };
+
 }]); // END BorrowCtrl
+//// BORROWED CTRL ////
 
-
-//// SEARCH CTRL ////
-BorrowApp.controller('SearchCtrl', 
-  ['$scope', '$http', 'selectUser',
+BorrowApp.controller('BorrowedCtrl', 
+  ['$scope', '$http', 'selectUser', 
   function($scope, $http, selectUser) {
 
-  // GET USER SELECTED
   var id = selectUser.getId();
-  // $http call to backend route that queries db
-  $http.get('/api/borrow-stuff/' + id).success(function(data, status) {
-      // console.log('Data1', data);
-      $scope.items = data;
-    });
 
-}]); // END SearchCtrl
+  $http.get('/api/borrowed-stuff/' + id).success(function(data, status) {
+    $scope.myBorrowedItems = data;
+  });
 
-  
+}]); // END BorrowedCtrl
+
 //// LEND CTRL ////
+
 BorrowApp.controller('LendCtrl', 
   ['$scope','$http', '$uibModal', '$log', 'selectUser', 
   function($scope, $http, $uibModal, $log, selectUser) {
@@ -172,30 +171,37 @@ BorrowApp.controller('LendCtrl',
   };
 
 }]); // END LendCtrl
+//// MAIN CTRL ////
 
-
-//// BORROWED CTRL ////
-BorrowApp.controller('BorrowedCtrl', 
-  ['$scope', '$http', 'selectUser', 
-  function($scope, $http, selectUser) {
-
-  var id = selectUser.getId();
-
-  $http.get('/api/borrowed-stuff/' + id).success(function(data, status) {
-    $scope.myBorrowedItems = data;
+BorrowApp.controller('MainCtrl', ['$scope', 'Users', 'selectUser', '$state', function($scope, Users, selectUser, $state) {
+  $scope.borrow = "BegBorrowNeverSteal";
+  // fad in and out pills
+  $scope.bool = true;
+  // include User from resource factory in array
+  // query express Users for users
+  Users.query(function success(data) {
+    $scope.allUsers = data;
+  }, function error(error) {
+    console.log("Error allUsers", error);
   });
 
-}]); // END BorrowedCtrl
-
-
+  // function for sending user selection to borrow page
+  $scope.select = function(id){
+    // console.log("state", $state);
+    selectUser.setId(id);
+    $state.go('stuff.search');
+  };
+  
+}]); // END MainCtrl
 //// MODAL INSTANCE CTRL ////
+
 BorrowApp.controller('ModalInstanceCtrl', [
   '$scope', '$http', '$uibModalInstance', 'Users', 'selectUser', 'item',
   function($scope, $http, $uibModalInstance, Users, selectUser, item) {
+  
   var id = selectUser.getId();
-  console.log(item);
 
-  // NEW ITEM
+  // NEW ITEM //
   $scope.newItem = {
     user_id: id,
     name: '',
@@ -222,9 +228,16 @@ BorrowApp.controller('ModalInstanceCtrl', [
     console.log("Error usersToLend", error);
   });
 
-  // LEND ITEM
+  // Item being lent
+  // item.query(function success(data) {
+  //   $scope.itemToLend = data;
+  //   console.log("itemToLend", $scope.itemToLend.id);
+  // })
+
+  // LEND ITEM //
+  console.log("item.id", item.id);
   $scope.lendItemState = {
-    item_id: '',
+    item_id: item.id,
     borrowerID: ''
   };
 
@@ -234,7 +247,8 @@ BorrowApp.controller('ModalInstanceCtrl', [
     // $http.put('/api/lend-options/', )
   };
 
-  // OPEN & CLOSE BUTTONS
+
+  // OPEN & CLOSE BUTTONS //
   $scope.ok = function(){
     $uibModalInstance.close();
   };
@@ -242,35 +256,22 @@ BorrowApp.controller('ModalInstanceCtrl', [
   $scope.cancel = function() {
     $uibModalInstance.dismiss('cancel');
   };
+
 }]); // END modal instance Ctrl
+//// SEARCH CTRL ////
 
+BorrowApp.controller('SearchCtrl', 
+  ['$scope', '$http', 'selectUser',
+  function($scope, $http, selectUser) {
 
-/////////////////////////////////
-//     Factories & Services   //
-///////////////////////////////
+  // GET USER SELECTED
+  var id = selectUser.getId();
+  // $http call to backend route that queries db
+  $http.get('/api/borrow-stuff/' + id).success(function(data, status) {
+      // console.log('Data1', data);
+      $scope.items = data;
+    });
 
-// FACTORIES
-
-// Gets list of all users and sends to MAIN CTRL
-BorrowApp.factory('Users', ['$resource', function($resource) {
-  return $resource('/api/users');
-}]); // END Users factory
-
-// // Refactored - now used $http to call exress instead
-// BorrowApp.factory('Items', ['$resource', function($resource) {
-//   return $resource('/api/borrow-stuff');
-// }]);
-
-// SERVICES
-
-// Sets and gets Id for user selected on main.html
-BorrowApp.service('selectUser', [function() {
-  this.setId = function(id) {
-    this.id = id;
-  }
-  this.getId = function(){
-    return this.id;
-  }
-}]); // END selectUser service
+}]); // END SearchCtrl
 
 //# sourceMappingURL=concat.js.map
