@@ -4,7 +4,7 @@ $font-stack-logo2: 'Open Sans Condensed', sans-serif;
 // color scheme
 $color-primary: #3470C9;
 $color-secondary: #C934BB;
-$color-background: #F7F2F6;
+$color-background: #EAF1FB;
 $color-available: #70C934;
 $color-unavailable: #C94334;
 
@@ -103,6 +103,7 @@ body {
   width: 250px;
   height: 350px;
   display: inline-block;
+  vertical-align: middle;
   margin: 10px 10px;
   background-color: $color-primary;
   border-radius: 10px;

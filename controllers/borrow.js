@@ -11,33 +11,28 @@ router.route('/users')
     });
   })
 
-// router.route('/borrow-stuff')
-//   .get(function(req, res) {
-//     db.item.findAll().then(function(items) {
-//       res.send(items);
-//     });
-//   })
-
 router.get('/borrow-stuff/:id', function(req, res) {
   console.log(req.params.id);
   db.item.findAll({
     where: {
       userId: { $not: req.params.id }
     },
-    include: [db.user]
+    include: [db.user, {
+      model: db.user,
+      as: 'borrower'
+    }]
   }).then(function(items) {
-      db.user.findAll({
+      db.item.findAll({
         // where: {
         //   borrowed: true
         // }
         include: [{
-          model: db.item,
+          model: db.user,
           where: { 
-            borrowed: true,
-            borrowerID: db.user.id }
+            id: db.item.borrowerID }
         }]
       }).then(function(bUsers) {
-        // console.log("bUsers", bUsers);
+        console.log("bUsers", bUsers);
         res.json({items: items, bUsers: bUsers});
       })
     });
@@ -60,11 +55,8 @@ router.get('/lend-stuff/:id', function(req, res) {
   })
 });
 
-// Project.findAll({
-//     include: [{
-//         model: Task,
-//         where: { state: Sequelize.col('project.state') }
-//     }]
-// })
+router.post('/new-stuff', function(req, res) {
+  console.log('FORM:', req.body);
+})
 
 module.exports = router;

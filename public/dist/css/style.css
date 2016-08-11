@@ -1,5 +1,5 @@
 body {
-  background-color: #F7F2F6; }
+  background-color: #EAF1FB; }
 
 /*/////////*/
 /*  Main  */
@@ -31,7 +31,7 @@ body {
   padding: 5px 10px;
   margin: 10px 15px;
   border-radius: 5px;
-  background-color: #F7F2F6;
+  background-color: #EAF1FB;
   font-size: 18px; }
 
 .pill:hover {
@@ -61,7 +61,7 @@ body {
 .arrow {
   border: none;
   padding: 0 10px;
-  background-color: #F7F2F6;
+  background-color: #EAF1FB;
   color: #C934BB;
   font-size: 40px; }
 
@@ -89,6 +89,7 @@ body {
   width: 250px;
   height: 350px;
   display: inline-block;
+  vertical-align: middle;
   margin: 10px 10px;
   background-color: #3470C9;
   border-radius: 10px;

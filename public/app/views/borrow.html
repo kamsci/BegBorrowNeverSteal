@@ -9,7 +9,7 @@
       <h4>{{ item.name }}</h4>
       <label>Owner:</label><span>{{ item.user.firstName}} {{ item.user.lastName }}</span>
       <div class="summary-borrow">
-        <label>Borrower:</label><span>{{ item.borrowed }}</span>
+        <label>Borrower:</label><span>{{ item.borrowedID }}</span>
         <div ng-class="{ unavailable: item.borrowed, available: !item.borrowed }" class="circle"></div>
         <div ng-if="item.borrowed">
           <label>since:</label><span>{{ item.dateBorrowed | date }}</span>

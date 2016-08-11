@@ -1,2 +1,204 @@
-var BorrowApp=angular.module("BorrowApp",["ngResource","ngAnimate","ui.router","ui.bootstrap"]);BorrowApp.config(["$stateProvider","$urlRouterProvider",function(t,e){e.otherwise("/"),t.state("main",{url:"/",templateUrl:"app/views/main.html",controller:"MainCtrl"}).state("stuff",{url:"/",templateUrl:"app/views/nav.html",controller:"BorrowCtrl"}).state("stuff.search",{url:"stuff/search",templateUrl:"app/views/borrow.html"}).state("stuff.lend",{url:"stuff/lend",templateUrl:"app/views/lend.html"}).state("stuff.borrowed",{url:"stuff/borrowed",templateUrl:"app/views/borrowed.html"})}]),BorrowApp.controller("MainCtrl",["$scope","Users","selectUser","$state",function(t,e,o,r){t.borrow="BegBorrowNeverSteal",t.bool=!0,e.query(function(e){t.allUsers=e},function t(t){console.log("Error allUsers",t)}),t.select=function(t){o.setId(t),r.go("stuff.search")}}]),BorrowApp.controller("BorrowCtrl",["$scope","$http","$state","$uibModal","$log","selectUser",function(t,e,o,r,s,n){t.navTitle="Stuff to Borrow",t.home=function(){o.go("main")},t.titleChange=function(){o.is("stuff.search")?t.navTitle="Stuff to Borrow":o.is("stuff.borrowed")?t.navTitle="Stuff I Borrowed":o.is("stuff.lend")&&(t.navTitle="Stuff I Lend")},t.prevState=function(){console.log(o),o.is("stuff.search")?o.go("stuff.borrowed"):o.is("stuff.borrowed")?o.go("stuff.lend"):o.is("stuff.lend")&&o.go("stuff.search"),t.titleChange()},t.nextState=function(){console.log(o,"HERE"),o.is("stuff.search")?o.go("stuff.lend"):o.is("stuff.lend")?o.go("stuff.borrowed"):o.is("stuff.borrowed")&&o.go("stuff.search"),t.titleChange()},t.animationsEnabled=!0,t.open=function(e){r.open({animation:t.animationsEnabled,templateUrl:"newItemModal.html",controller:"ModalInstanceCtrl",size:e,resolve:{}})};var l=n.getId();e.get("/api/borrow-stuff/"+l).success(function(e,o){t.things=e}),e.get("/api/lend-stuff/"+l).success(function(e,o){console.log("myThings",e),t.myThings=e})}]),BorrowApp.controller("ModalInstanceCtrl",["$scope","$uibModalInstance",function(t,e){t.ok=function(){e.close()},t.cancel=function(){e.dismiss("cancel")}}]),BorrowApp.factory("Users",["$resource",function(t){return t("/api/users")}]),BorrowApp.factory("Items",["$resource",function(t){return t("/api/borrow-stuff")}]),BorrowApp.service("selectUser",[function(){this.setId=function(t){this.id=t},this.getId=function(){return this.id}}]);
+var BorrowApp = angular.module('BorrowApp', ['ngResource', 'ngAnimate', 'ui.router', 'ui.bootstrap']);
+
+// UI.ROUTER //
+BorrowApp.config(['$stateProvider', '$urlRouterProvider', 
+  function($stateProvider, $urlRouterProvider) {
+
+    $urlRouterProvider.otherwise('/');
+
+    $stateProvider
+    .state('main', {
+      url: '/',
+      templateUrl: 'app/views/main.html',
+      controller: 'MainCtrl'
+    })
+    .state('stuff', {
+      url: '/',
+      templateUrl: 'app/views/nav.html',
+      controller: 'BorrowCtrl'
+    })
+    .state('stuff.search', {
+      url: 'stuff/search',
+      templateUrl: 'app/views/borrow.html'
+    })
+    .state('stuff.lend', {
+      url: 'stuff/lend',
+      templateUrl: 'app/views/lend.html',
+    })
+    .state('stuff.borrowed', {
+      url: 'stuff/borrowed',
+      templateUrl: 'app/views/borrowed.html'
+    })
+
+  }]); // END config
+
+/////////////////////////
+//     CONTROLLERS    //
+///////////////////////
+
+// MAIN CTRL //
+BorrowApp.controller('MainCtrl', ['$scope', 'Users', 'selectUser', '$state', function($scope, Users, selectUser, $state) {
+  $scope.borrow = "BegBorrowNeverSteal";
+  // fad in and out pills
+  $scope.bool = true;
+  // include User from resource factory in array
+  // query express Users for users
+  Users.query(function success(data) {
+    $scope.allUsers = data;
+  }, function error(error) {
+    console.log("Error allUsers", error);
+  });
+
+  // function for sending user selection to borrow page
+  $scope.select = function(id){
+    // console.log("state", $state);
+    selectUser.setId(id);
+    $state.go('stuff.search');
+  };
+}]); // END MainCtrl
+
+// BORROW CTRL //
+BorrowApp.controller('BorrowCtrl', 
+  ['$scope', '$http', '$state', '$uibModal', '$log', 'selectUser', 
+  function($scope, $http, $state, $uibModal, $log, selectUser) {
+  
+  $scope.navTitle = "Stuff to Borrow";
+
+  // NAVIGATE
+  $scope.home = function() {
+    $state.go('main');
+  };
+
+  $scope.titleChange = function(state){
+    if (state === 'search') {
+      $scope.navTitle = "Stuff to Borrow"; 
+    } else if (state === 'borrowed') {
+      $scope.navTitle = "Stuff I Borrowed"; 
+    } else if (state === 'lend') {
+      $scope.navTitle = "Stuff I Lend"; 
+    };   
+  };
+
+  $scope.prevState = function(){
+      console.log($state);
+    if ($state.is('stuff.search')) {
+      $state.go('stuff.borrowed');
+    } else if ($state.is('stuff.borrowed')) {
+      $state.go('stuff.lend')
+    } else if ($state.is('stuff.lend')) {
+      $state.go('stuff.search');
+    };
+    $scope.titleChange();
+  };
+  $scope.nextState = function(){
+      console.log($state, "HERE");
+    if ($state.is('stuff.search')) {
+      $state.go('stuff.lend');
+      var state = 'lend';
+    } else if ($state.is('stuff.lend')) {
+      $state.go('stuff.borrowed')
+      var state = 'borrowed';
+    } else if ($state.is('stuff.borrowed')) {
+      $state.go('stuff.search');
+      var state = 'search';
+    };
+    $scope.titleChange(state);
+  };
+
+  // NEW ITEM MODAL
+  $scope.animationsEnabled = true;
+
+  $scope.open = function(size) {
+    var modalInstance = $uibModal.open({
+      animation: $scope.animationsEnabled,
+      templateUrl: 'newItemModal.html',
+      controller: 'ModalInstanceCtrl',
+      size: size,
+      resolve: {}
+    });
+  };
+
+  // GET USER SELECTED
+  var id = selectUser.getId();
+  // $http call to backend route that queries db
+  $http.get('/api/borrow-stuff/' + id).success(function(data, status) {
+      // console.log('Data', data);
+      $scope.things = data;
+    });
+  // Items.query(function success(data) {
+  //   $scope.items = data;
+  // });
+
+  // GET USER LEND
+  $http.get('/api/lend-stuff/' + id).success(function(data, status) {
+    // console.log("myItems", data);
+    $scope.myItems = data;
+  });
+}]); // END BorrowCtrl
+
+
+// MODAL INSTANCE CTRL
+
+BorrowApp.controller('ModalInstanceCtrl', ['$scope', '$http', '$uibModalInstance', 'selectUser', 
+  function($scope, $http, $uibModalInstance, selectUser) {
+  var id = selectUser.getId();
+
+  $scope.newItem = {
+    user_id: id,
+    name: '',
+    category: '',
+    description: '',
+    imageUrl: '',
+    active: true,
+    borrowed: false,
+    dateBorrowed: null,
+    borrowerID: null
+  };
+  $scope.createItem = function(newItem){
+    // Send form with newItem info to backend
+    $http.post('/api/new-stuff/', $scope.newItem)
+    .then(function success(res) {
+      console.log("Post Succes", res);
+    }, function error(err){
+      alert("Error: Item was not created");
+      console.log("Post Error", err);
+    });    
+  }
+
+  $scope.ok = function(){
+    $uibModalInstance.close();
+  };
+
+  $scope.cancel = function() {
+    $uibModalInstance.dismiss('cancel');
+  };
+}]); // END modal instance Ctrl
+
+
+/////////////////////////////////
+//     Factories & Services   //
+///////////////////////////////
+
+// FACTORIES
+// Gets list of all users and sends to MAIN CTRL
+BorrowApp.factory('Users', ['$resource', function($resource) {
+  return $resource('/api/users');
+}]);
+
+// // Refactored - now used $http to call exress instead
+// BorrowApp.factory('Items', ['$resource', function($resource) {
+//   return $resource('/api/borrow-stuff');
+// }]);
+
+// SERVICES
+// Sets and gets Id for user selected on main.html
+BorrowApp.service('selectUser', [function() {
+  this.setId = function(id) {
+    this.id = id;
+  }
+  this.getId = function(){
+    return this.id;
+  }
+}]);
+
 //# sourceMappingURL=concat.js.map

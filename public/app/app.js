@@ -1,5 +1,6 @@
 var BorrowApp = angular.module('BorrowApp', ['ngResource', 'ngAnimate', 'ui.router', 'ui.bootstrap']);
 
+// UI.ROUTER //
 BorrowApp.config(['$stateProvider', '$urlRouterProvider', 
   function($stateProvider, $urlRouterProvider) {
 
@@ -35,7 +36,7 @@ BorrowApp.config(['$stateProvider', '$urlRouterProvider',
 //     CONTROLLERS    //
 ///////////////////////
 
-// MAIN CTRL
+// MAIN CTRL //
 BorrowApp.controller('MainCtrl', ['$scope', 'Users', 'selectUser', '$state', function($scope, Users, selectUser, $state) {
   $scope.borrow = "BegBorrowNeverSteal";
   // fad in and out pills
@@ -56,7 +57,7 @@ BorrowApp.controller('MainCtrl', ['$scope', 'Users', 'selectUser', '$state', fun
   };
 }]); // END MainCtrl
 
-// BORROW CTRL
+// BORROW CTRL //
 BorrowApp.controller('BorrowCtrl', 
   ['$scope', '$http', '$state', '$uibModal', '$log', 'selectUser', 
   function($scope, $http, $state, $uibModal, $log, selectUser) {
@@ -66,17 +67,17 @@ BorrowApp.controller('BorrowCtrl',
   // NAVIGATE
   $scope.home = function() {
     $state.go('main');
-  }
+  };
 
-  $scope.titleChange = function(){
-    if ($state.is('stuff.search')) {
+  $scope.titleChange = function(state){
+    if (state === 'search') {
       $scope.navTitle = "Stuff to Borrow"; 
-    } else if ($state.is('stuff.borrowed')) {
+    } else if (state === 'borrowed') {
       $scope.navTitle = "Stuff I Borrowed"; 
-    } else if ($state.is('stuff.lend')) {
+    } else if (state === 'lend') {
       $scope.navTitle = "Stuff I Lend"; 
-    }   
-  }
+    };   
+  };
 
   $scope.prevState = function(){
       console.log($state);
@@ -86,20 +87,23 @@ BorrowApp.controller('BorrowCtrl',
       $state.go('stuff.lend')
     } else if ($state.is('stuff.lend')) {
       $state.go('stuff.search');
-    }
+    };
     $scope.titleChange();
-  }
+  };
   $scope.nextState = function(){
       console.log($state, "HERE");
     if ($state.is('stuff.search')) {
       $state.go('stuff.lend');
+      var state = 'lend';
     } else if ($state.is('stuff.lend')) {
       $state.go('stuff.borrowed')
+      var state = 'borrowed';
     } else if ($state.is('stuff.borrowed')) {
       $state.go('stuff.search');
-    }
-    $scope.titleChange();
-  }
+      var state = 'search';
+    };
+    $scope.titleChange(state);
+  };
 
   // NEW ITEM MODAL
   $scope.animationsEnabled = true;
@@ -112,9 +116,7 @@ BorrowApp.controller('BorrowCtrl',
       size: size,
       resolve: {}
     });
-  }
-
-
+  };
 
   // GET USER SELECTED
   var id = selectUser.getId();
@@ -122,41 +124,74 @@ BorrowApp.controller('BorrowCtrl',
   $http.get('/api/borrow-stuff/' + id).success(function(data, status) {
       // console.log('Data', data);
       $scope.things = data;
-    })
+    });
   // Items.query(function success(data) {
   //   $scope.items = data;
   // });
 
   // GET USER LEND
   $http.get('/api/lend-stuff/' + id).success(function(data, status) {
-    console.log("myThings", data);
-    $scope.myThings = data;
-  })
+    // console.log("myItems", data);
+    $scope.myItems = data;
+  });
 }]); // END BorrowCtrl
 
 
 // MODAL INSTANCE CTRL
 
-BorrowApp.controller('ModalInstanceCtrl', ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
+BorrowApp.controller('ModalInstanceCtrl', ['$scope', '$http', '$uibModalInstance', 'selectUser', 
+  function($scope, $http, $uibModalInstance, selectUser) {
+  var id = selectUser.getId();
+
+  $scope.newItem = {
+    user_id: id,
+    name: '',
+    category: '',
+    description: '',
+    imageUrl: '',
+    active: true,
+    borrowed: false,
+    dateBorrowed: null,
+    borrowerID: null
+  };
+  $scope.createItem = function(newItem){
+    // Send form with newItem info to backend
+    $http.post('/api/new-stuff/', $scope.newItem)
+    .then(function success(res) {
+      console.log("Post Succes", res);
+    }, function error(err){
+      alert("Error: Item was not created");
+      console.log("Post Error", err);
+    });    
+  }
+
   $scope.ok = function(){
     $uibModalInstance.close();
-  }
+  };
 
   $scope.cancel = function() {
     $uibModalInstance.dismiss('cancel');
-  }
+  };
 }]); // END modal instance Ctrl
 
+
+/////////////////////////////////
+//     Factories & Services   //
+///////////////////////////////
+
 // FACTORIES
+// Gets list of all users and sends to MAIN CTRL
 BorrowApp.factory('Users', ['$resource', function($resource) {
   return $resource('/api/users');
 }]);
 
-BorrowApp.factory('Items', ['$resource', function($resource) {
-  return $resource('/api/borrow-stuff');
-}]);
+// // Refactored - now used $http to call exress instead
+// BorrowApp.factory('Items', ['$resource', function($resource) {
+//   return $resource('/api/borrow-stuff');
+// }]);
 
 // SERVICES
+// Sets and gets Id for user selected on main.html
 BorrowApp.service('selectUser', [function() {
   this.setId = function(id) {
     this.id = id;
