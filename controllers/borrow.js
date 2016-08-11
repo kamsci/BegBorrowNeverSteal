@@ -4,15 +4,14 @@ var router = express.Router();
 
 ////////////////////////////////////////
 
-router.route('/users')
-  .get(function(req, res) {
-    db.user.findAll().then(function(users) {
-      res.send(users);
-    });
-  })
+router.get('/users', function(req, res) {
+  db.user.findAll().then(function(users) {
+    res.send(users);
+  });
+});
 
 router.get('/borrow-stuff/:id', function(req, res) {
-  console.log(req.params.id);
+  console.log("Borrow", req.params.id);
   db.item.findAll({
     where: {
       userId: { $not: req.params.id }
@@ -22,37 +21,37 @@ router.get('/borrow-stuff/:id', function(req, res) {
       as: 'borrower'
     }]
   }).then(function(items) {
-      db.item.findAll({
-        // where: {
-        //   borrowed: true
-        // }
-        include: [{
-          model: db.user,
-          where: { 
-            id: db.item.borrowerID }
-        }]
-      }).then(function(bUsers) {
-        console.log("bUsers", bUsers);
-        res.json({items: items, bUsers: bUsers});
-      })
+      res.send(items);
     });
 });
 
 router.get('/lend-stuff/:id', function(req, res) {
-  console.log(req.params.id);
+  console.log("Params", req.params.id);
   db.item.findAll({
     where: {
       userId: req.params.id
     },
-    include: [db.user]
-    // {
-    //   model: db.user,
-    //   where: { 
-    //     id: db.item.borrowerID }
-    // }]
+    include: [db.user, {
+      model: db.user,
+      as: 'borrower'
+    }]
   }).then(function(myItems) {
-    res.json({myItems: myItems});
+    res.send(myItems);
   })
+});
+
+router.get('/borrowed-stuff/:id', function(req, res) {
+  db.item.findAll({
+    where: {
+      borrowerID: req.params.id 
+    },
+    include: [db.user, {
+      model: db.user,
+      as: 'borrower'
+    }]
+  }).then(function(myBorrowedItems) {
+    res.send(myBorrowedItems);
+  });
 });
 
 router.post('/new-stuff', function(req, res) {

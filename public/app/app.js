@@ -80,18 +80,21 @@ BorrowApp.controller('BorrowCtrl',
   };
 
   $scope.prevState = function(){
-      console.log($state);
+      // console.log($state);
     if ($state.is('stuff.search')) {
       $state.go('stuff.borrowed');
+      var state = 'borrowed';
     } else if ($state.is('stuff.borrowed')) {
       $state.go('stuff.lend')
+      var state = 'lend';
     } else if ($state.is('stuff.lend')) {
       $state.go('stuff.search');
+      var state = 'search';
     };
     $scope.titleChange();
   };
   $scope.nextState = function(){
-      console.log($state, "HERE");
+      // console.log($state, "HERE");
     if ($state.is('stuff.search')) {
       $state.go('stuff.lend');
       var state = 'lend';
@@ -105,6 +108,11 @@ BorrowApp.controller('BorrowCtrl',
     $scope.titleChange(state);
   };
 
+  $scope.checkInOrOut = function(id, borrowed) {
+    console.log("id, borrowed", id, borrowed);
+    
+    $http.put('/api/edit/stuff/' + id)
+  }
   // NEW ITEM MODAL
   $scope.animationsEnabled = true;
 
@@ -122,18 +130,22 @@ BorrowApp.controller('BorrowCtrl',
   var id = selectUser.getId();
   // $http call to backend route that queries db
   $http.get('/api/borrow-stuff/' + id).success(function(data, status) {
-      // console.log('Data', data);
-      $scope.things = data;
+      console.log('Data1', data);
+      $scope.items = data;
     });
   // Items.query(function success(data) {
   //   $scope.items = data;
   // });
-
+  console.log("id", id);
   // GET USER LEND
   $http.get('/api/lend-stuff/' + id).success(function(data, status) {
     // console.log("myItems", data);
     $scope.myItems = data;
   });
+
+  $http.get('/api/borrowed-stuff/' + id).success(function(data, status) {
+    $scope.myBorrowedItems = data;
+  })
 }]); // END BorrowCtrl
 
 

@@ -22,6 +22,7 @@ body {
 }
 .logo-b {
   font-family: $font-stack-logo2;
+  cursor: pointer;
 }
 .lead-p {
   line-height: 22px;
@@ -143,7 +144,22 @@ body {
   height: 20px;
   display: inline-block;
   float: right;
+  border: 1px solid gray;
   border-radius: 50%;
+}
+.btn-container {
+  display: inline-block;
+  float: right;
+  text-align: center;
+}
+.b-btn {
+  width: 40px;
+  font-size: 12px;
+  padding: 5px 5px;
+}
+.fa-bullseye {
+  text-align: center;
+
 }
 .available {
   background-color: $color-available;  

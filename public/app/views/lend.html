@@ -1,16 +1,21 @@
-<div> Lend Stuff
+<div>
   <div class="stuff" 
-    ng-repeat="item in myItems track by item.id"
-    ng-repeat="user in things.bUsers track by user.id">
+    ng-repeat="item in myItems track by item.id">
     <div class= "image-container">
       <img src="{{ item.imageUrl }}">
     </div>
     <div class="summary">
-      <h4>{{ item.name }}</h4>
-      <label>Owner:</label><span>{{ item.user.firstName}} {{ item.user.lastName }}</span>
+      <div>
+        <h4>{{ item.name }}</h4>
+        <label>Owner:</label><span>{{ item.user.firstName}} {{ item.user.lastName }}</span>
+        <div class="btn-container">
+          <button ng-if="item.borrowed" class="b-btn btn btn-success" ng-click="checkInOrOut(item.id, item.borrowed)">In</button>
+          <button ng-if="!item.borrowed" class="b-btn btn btn-danger" ng-click="checkInOrOut(item.id, item.borrowed)">Out</button>
+        </div>
+      </div>
       <div class="summary-borrow">
-        <label>Borrower:</label><span>{{ item.borrowed }}</span>
-        <div ng-class="{ unavailable: item.borrowed, available: !item.borrowed }" class="circle"></div>
+        <label>Borrower:</label><span>{{ item.borrower.firstName }} {{ item.borrower.lastName }}</span>
+        <button ng-class="{ unavailable: item.borrowed, available: !item.borrowed }" class="circle"></button>
         <div ng-if="item.borrowed">
           <label>since:</label><span>{{ item.dateBorrowed | date }}</span>
         </div>
