@@ -124,17 +124,6 @@ BorrowApp.controller('BorrowCtrl',
       resolve: {}
     });
   };
-
-  $scope.createItem = function(newItem){
-    // Send form with newItem info to backend
-    $http.post('/api/new-stuff/', $scope.newItem)
-    .then(function success(res) {
-      console.log("Post Success", res);
-    }, function error(err){
-      alert("Error: Item was not created");
-      console.log("Post Error", err);
-    });    
-  }
 }]); // END BorrowCtrl
 
 
@@ -147,7 +136,7 @@ BorrowApp.controller('SearchCtrl',
   var id = selectUser.getId();
   // $http call to backend route that queries db
   $http.get('/api/borrow-stuff/' + id).success(function(data, status) {
-      console.log('Data1', data);
+      // console.log('Data1', data);
       $scope.items = data;
     });
 
@@ -166,6 +155,31 @@ BorrowApp.controller('LendCtrl',
     // console.log("myItems", data);
     $scope.myItems = data;
   });
+
+  // EDIT LEND STATUS MODAL
+
+  // $scope.animationsEnabled = true;
+
+  $scope.open = function(size) {
+    var modalInstance = $uibModal.open({
+      animation: $scope.animationsEnabled,
+      templateUrl: 'editLendModal.html',
+      controller: 'ModalInstanceCtrl',
+      size: size,
+      resolve: {}
+    });
+  };
+
+  // $scope.createItem = function(newItem){
+  //   // Send form with newItem info to backend
+  //   $http.post('/api/new-stuff/', $scope.newItem)
+  //   .then(function success(res) {
+  //     console.log("Post Success", res);
+  //   }, function error(err){
+  //     alert("Error: Item was not created");
+  //     console.log("Post Error", err);
+  //   });    
+  // }
   $scope.checkInOrOut = function(id, borrowed) {
     // console.log("id, borrowed", id, borrowed);
     //   $http.post('/api/edit-stuff/' + id, borrowed).then(function(data) {
@@ -175,7 +189,6 @@ BorrowApp.controller('LendCtrl',
     //   }); 
   }
 
-  // EDIT LEND STATUS MODAL
 
 }]); // END LendCtrl
 
@@ -206,6 +219,17 @@ BorrowApp.controller('ModalInstanceCtrl', ['$scope', '$http', '$uibModalInstance
     description: '',
     imageUrl: ''
   };
+
+  $scope.createItem = function(newItem){
+    // Send form with newItem info to backend
+    $http.post('/api/new-stuff/', $scope.newItem)
+    .then(function success(res) {
+      console.log("Post Success", res);
+    }, function error(err){
+      alert("Error: Item was not created");
+      console.log("Post Error", err);
+    });    
+  }
 
   $scope.borrowItemState = {
     item_id: '',
