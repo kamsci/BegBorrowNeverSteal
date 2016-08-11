@@ -159,13 +159,15 @@ BorrowApp.controller('LendCtrl',
   // EDIT LEND STATUS MODAL
   // $scope.animationsEnabled = true;
 
-  $scope.open = function(size) {
+  $scope.open = function(item) {
     var modalInstance = $uibModal.open({
       animation: $scope.animationsEnabled,
-      templateUrl: 'editLendModal.html',
+      templateUrl: 'app/templates/editLendModal.html',
       controller: 'ModalInstanceCtrl',
-      size: size,
-      resolve: {}
+      //size: size,
+      resolve: {
+        item: item
+      }
     });
   };
 
@@ -188,9 +190,10 @@ BorrowApp.controller('BorrowedCtrl',
 
 //// MODAL INSTANCE CTRL ////
 BorrowApp.controller('ModalInstanceCtrl', [
-  '$scope', '$http', '$uibModalInstance', 'Users', 'selectUser', 
-  function($scope, $http, $uibModalInstance, Users, selectUser) {
+  '$scope', '$http', '$uibModalInstance', 'Users', 'selectUser', 'item',
+  function($scope, $http, $uibModalInstance, Users, selectUser, item) {
   var id = selectUser.getId();
+  console.log(item);
 
   // NEW ITEM
   $scope.newItem = {
@@ -212,23 +215,23 @@ BorrowApp.controller('ModalInstanceCtrl', [
     });    
   }
 
-  // LEND ITEM
   // Users to lend to
-    Users.query(function success(data) {
-      $scope.usersToLend = data;
+  Users.query(function success(data) {
+    $scope.usersToLend = data;
   }, function error(error) {
     console.log("Error usersToLend", error);
   });
 
-  $scope.borrowItemState = {
+  // LEND ITEM
+  $scope.lendItemState = {
     item_id: '',
     borrowerID: ''
   };
 
-  $scope.lendItem = function(id) {
+  $scope.lendItem = function() {
     // update borrow status of item
-    console.log("Lending..");
-    // $http.put('/api/edit-borrow/')
+    console.log("Lending..", $scope.lendItemState);
+    // $http.put('/api/lend-options/', )
   };
 
   // OPEN & CLOSE BUTTONS
