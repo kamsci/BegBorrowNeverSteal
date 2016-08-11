@@ -6,7 +6,7 @@
 <div class="modal-body">
   <form ng-submit="lendItem()">
     <div class="form-group">
-      <select name="lendTo" id="lendTo" class="form-control" ng-model="lendItemState.borrowerID">
+      <select name="lendTo" id="lendTo" class="form-control" ng-model="lendItemUpdate.borrowerID">
         <option value="">Lend to...</option>
         <option ng-repeat="user in usersToLend track by user.id" value="{{ user.id }}">{{ user.firstName }} {{user.lastName }}</option>
       </select>

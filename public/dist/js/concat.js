@@ -228,23 +228,25 @@ BorrowApp.controller('ModalInstanceCtrl', [
     console.log("Error usersToLend", error);
   });
 
-  // Item being lent
-  // item.query(function success(data) {
-  //   $scope.itemToLend = data;
-  //   console.log("itemToLend", $scope.itemToLend.id);
-  // })
 
   // LEND ITEM //
   console.log("item.id", item.id);
-  $scope.lendItemState = {
+
+  $scope.lendItemUpdate = {
+    // item.id comes from open() resolve option
     item_id: item.id,
-    borrowerID: ''
+    borrowerID: null
   };
 
   $scope.lendItem = function() {
     // update borrow status of item
-    console.log("Lending..", $scope.lendItemState);
-    // $http.put('/api/lend-options/', )
+    console.log("Lending..", $scope.lendItemUpdate);
+    $http.put('/api/lend-options/', $scope.lendItemUpdate)
+    .then(function(data) {
+      console.log("Item Lent");
+    }, function(err) {
+      console.log("Lend Item Error", err);
+    });
   };
 
 

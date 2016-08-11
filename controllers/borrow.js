@@ -40,6 +40,25 @@ router.get('/lend-stuff/:id', function(req, res) {
   })
 });
 
+router.put('/lend-options/', function(req, res) {
+  console.log("Lend", req.body);
+  db.item.find({
+    where: {
+      id: req.body.item_id
+    }
+  }).then(function(item) {
+    console.log("ITEM", item);
+    item.update({
+      borrowerID: req.body.borrowerID,
+      borrowed: true,
+      dateBorrowed: new Date()
+    })
+    .then(function(data) {
+      res.send(data);
+    })
+  })
+})
+
 router.get('/borrowed-stuff/:id', function(req, res) {
   db.item.findAll({
     where: {
