@@ -3,11 +3,11 @@ A site where a community of friends can list all the items they have that they a
 
 ## Technologies Used
 * Angular (front-end)
-** ui.router
-** ui.bootstrap
-** ngResources
+ * ui.router
+ * ui.bootstrap
+ * ngResources
 * Node.js
-** Express.js (web-server)
+ * Express.js (web-server)
 * Postgresql (database)
 
 
@@ -25,13 +25,13 @@ Introducing... the PEAN stack. Postgresql - Express - Angular - Node.js
 As a loaner
 * Add items to be borrowed
 * See who has my stuff
-** when they borrowed it
+ * when they borrowed it
 * Mark items as On-Loan
 
 As a borrower
 * View available items to borrow 
 * See what I have borrowed
-** when I borrowed it
+ * when I borrowed it
 
 ## Wireframes
 See wireframes in Axure: http://wpiif7.axshare.com
@@ -49,8 +49,8 @@ As a loaner
 As a borrower
 *  View items to borrow by category
 *  Ask for items to borrow
-** Does anyone have a ____?
-** Alert all users
+ * Does anyone have a ____?
+ * Alert all users
 *  View Items by available or not
 
 All
