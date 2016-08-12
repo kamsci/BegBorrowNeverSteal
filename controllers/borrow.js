@@ -40,7 +40,7 @@ router.get('/lend-stuff/:id', function(req, res) {
   })
 });
 
-router.put('/lend-options/', function(req, res) {
+router.put('/lend-stuff/', function(req, res) {
   console.log("Lend", req.body);
   db.item.find({
     where: {
@@ -57,7 +57,25 @@ router.put('/lend-options/', function(req, res) {
       res.send(data);
     })
   })
-})
+});
+
+router.put('/return-stuff/:id', function(req, res) {
+  console.log("ITEM", req.params.id)
+  db.item.find({
+    where: {
+      id: req.params.id
+    }
+  }).then(function(item) {
+    item.update({
+      borrowerID: null,
+      borrowed: false,
+      dateBorrowed: null  
+    })
+    .then(function(data) {
+      res.send(data);
+    })
+  })
+});
 
 router.get('/borrowed-stuff/:id', function(req, res) {
   db.item.findAll({

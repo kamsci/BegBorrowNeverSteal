@@ -12,4 +12,14 @@ BorrowApp.controller('SearchCtrl',
       $scope.items = data;
     });
 
+  $scope.showImage = true;
+  // Switch image and view
+  $scope.toggle = function() {
+    if ($scope.showImage) {
+      $scope.showImage = false;
+    } else {
+      $scope.showImage = true;
+    }
+  }
+
 }]); // END SearchCtrl

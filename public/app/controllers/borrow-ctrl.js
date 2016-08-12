@@ -33,7 +33,7 @@ BorrowApp.controller('BorrowCtrl',
       $state.go('stuff.search');
       var state = 'search';
     };
-    $scope.titleChange();
+    $scope.titleChange(state);
   };
   $scope.nextState = function(){
       // console.log($state, "HERE");

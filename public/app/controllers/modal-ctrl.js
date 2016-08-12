@@ -46,7 +46,7 @@ BorrowApp.controller('ModalInstanceCtrl', [
   $scope.lendItem = function() {
     // update borrow status of item
     console.log("Lending..", $scope.lendItemUpdate);
-    $http.put('/api/lend-options/', $scope.lendItemUpdate)
+    $http.put('/api/lend-stuff/', $scope.lendItemUpdate)
     .then(function(data) {
       console.log("Item Lent");
     }, function(err) {

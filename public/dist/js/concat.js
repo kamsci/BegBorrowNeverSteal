@@ -97,7 +97,7 @@ BorrowApp.controller('BorrowCtrl',
       $state.go('stuff.search');
       var state = 'search';
     };
-    $scope.titleChange();
+    $scope.titleChange(state);
   };
   $scope.nextState = function(){
       // console.log($state, "HERE");
@@ -133,6 +133,16 @@ BorrowApp.controller('BorrowedCtrl',
   ['$scope', '$http', 'selectUser', 
   function($scope, $http, selectUser) {
 
+  $scope.showImage = true;
+  // Switch image and view
+  $scope.toggle = function() {
+    if ($scope.showImage) {
+      $scope.showImage = false;
+    } else {
+      $scope.showImage = true;
+    }
+  }
+
   var id = selectUser.getId();
 
   $http.get('/api/borrowed-stuff/' + id).success(function(data, status) {
@@ -144,10 +154,21 @@ BorrowApp.controller('BorrowedCtrl',
 //// LEND CTRL ////
 
 BorrowApp.controller('LendCtrl', 
-  ['$scope','$http', '$uibModal', '$log', 'selectUser', 
-  function($scope, $http, $uibModal, $log, selectUser) {
+  ['$scope','$http', '$uibModal', '$log', '$sce', 'selectUser', 
+  function($scope, $http, $uibModal, $log, $sce, selectUser) {
 
   var id = selectUser.getId();
+  $scope.trustAsHtml = $sce.trustAsHtml
+
+  $scope.showImage = true;
+  // Switch image and view
+  $scope.toggle = function() {
+    if ($scope.showImage) {
+      $scope.showImage = false;
+    } else {
+      $scope.showImage = true;
+    }
+  }
 
   // GET USER LEND STUFF
   $http.get('/api/lend-stuff/' + id).success(function(data, status) {
@@ -155,20 +176,28 @@ BorrowApp.controller('LendCtrl',
     $scope.myItems = data;
   });
 
-  // EDIT LEND STATUS MODAL
-  // $scope.animationsEnabled = true;
+  // LEND ITEM MODAL
+  $scope.animationsEnabled = false;
 
   $scope.open = function(item) {
     var modalInstance = $uibModal.open({
       animation: $scope.animationsEnabled,
       templateUrl: 'app/templates/editLendModal.html',
       controller: 'ModalInstanceCtrl',
-      //size: size,
       resolve: {
         item: item
       }
     });
   };
+
+  // RETURN ITEM
+  $scope.returnItem = function(id) {
+    console.log("ID", id);
+    $http.put('/api/return-stuff/' + id)
+    .then(function(data) {
+      $scope.myItems
+    })
+  }
 
 }]); // END LendCtrl
 //// MAIN CTRL ////
@@ -241,7 +270,7 @@ BorrowApp.controller('ModalInstanceCtrl', [
   $scope.lendItem = function() {
     // update borrow status of item
     console.log("Lending..", $scope.lendItemUpdate);
-    $http.put('/api/lend-options/', $scope.lendItemUpdate)
+    $http.put('/api/lend-stuff/', $scope.lendItemUpdate)
     .then(function(data) {
       console.log("Item Lent");
     }, function(err) {
@@ -273,6 +302,16 @@ BorrowApp.controller('SearchCtrl',
       // console.log('Data1', data);
       $scope.items = data;
     });
+
+  $scope.showImage = true;
+  // Switch image and view
+  $scope.toggle = function() {
+    if ($scope.showImage) {
+      $scope.showImage = false;
+    } else {
+      $scope.showImage = true;
+    }
+  }
 
 }]); // END SearchCtrl
 
