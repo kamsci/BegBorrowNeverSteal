@@ -19,15 +19,13 @@ BorrowApp.controller('LendCtrl',
   }
 
   // EDIT ITEM Modal
-  $scope.open = function(item) {
+  $scope.openEdit = function(item) {
     console.log("open edit")
     var modalInstance = $uibModal.open({
       animation: $scope.animationsEnabled,
       templateUrl: 'app/templates/editItemModal.html',
       controller: 'ModalEditCtrl',
-      resolve: {
-        item: item
-      }
+      resolve: {}
     });
   };
 
