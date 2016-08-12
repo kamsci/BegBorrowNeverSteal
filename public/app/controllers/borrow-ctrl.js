@@ -8,6 +8,7 @@ BorrowApp.controller('BorrowCtrl',
   var id = selectUser.getId();
   // $http call to backend route that queries db
   $http.get('/api/borrow-stuff/' + id).success(function(data, status) {
+    console.log("ID", id)
       for (var i = 0; i < data.length; i++) {
         data[i].show = true;
       }

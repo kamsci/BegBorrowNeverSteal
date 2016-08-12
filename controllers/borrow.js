@@ -122,7 +122,7 @@ router.get('/get-edit/:id', function(req, res) {
     res.send(item);
   }, function(err) {
     res.send(err);
-  })
+  });
 });
 
 router.put('/edit-stuff/', function(req, res) {
@@ -141,7 +141,15 @@ router.put('/edit-stuff/', function(req, res) {
       }, function(err) {
         console.log("Edit Error", err);
       })  
-  })
+  });
+});
+
+router.put('/delete-stuff', function(req, res) {
+  db.item.destroy({
+    where: { id: req.body.id }
+  }).then(function(data) {
+    res.send(data);
+  });
 });
 
 module.exports = router;

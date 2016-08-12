@@ -19,9 +19,9 @@ BorrowApp.controller('ModalNewCtrl', [
     // Send form with newItem info to backend
     $http.post('/api/new-stuff/', $scope.newItem)
     .then(function success(res) {
+      console.log("Created");
       $state.go('stuff.lend');
     }, function error(err){
-      alert("Error: Item was not created");
       console.log("Post Error", err);
     });    
   }

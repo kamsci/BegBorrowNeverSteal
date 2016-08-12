@@ -28,8 +28,7 @@
     <div class="form-group">
       <input type="url" name="imageUrl" id="imageUrl" placeholder="Image url (http://)" class="form-control" ng-model="item.imageUrl">
     </div>
-  <!-- Delete button -->
-    <button class="btn btn-danger pull-left" type="submit" ng-click="deleteItem(item.id)">Delete</button>
+    <button class="btn btn-danger pull-left" type="button" ng-click="deleteItem()">Delete</button>    
   <!-- Submit & cancel Buttons -->
     <div class="text-right">
       <button class="btn btn-primary" type="submit" ng-click="ok()">Submit</button>

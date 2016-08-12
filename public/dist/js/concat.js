@@ -72,6 +72,7 @@ BorrowApp.controller('BorrowCtrl',
   var id = selectUser.getId();
   // $http call to backend route that queries db
   $http.get('/api/borrow-stuff/' + id).success(function(data, status) {
+    console.log("ID", id)
       for (var i = 0; i < data.length; i++) {
         data[i].show = true;
       }
@@ -217,16 +218,26 @@ BorrowApp.controller('ModalEditCtrl', [
   // }
 
   $scope.editItem = function(){
-    // Send form with newItem info to backend
+    // Send form with item info to backend
     $http.put('/api/edit-stuff/', $scope.item)
     .then(function success(res) {
       $state.go('stuff.lend');
     }, function error(err){
-      alert("Error: Item was not created");
-      console.log("Post Error", err);
+      console.log("Edit Error", err);
     });    
   }
 
+  $scope.deleteItem = function() {
+    // Send form with item info to backend
+    $http.put('/api/delete-stuff/', $scope.item)
+    .then(function success(res) {
+      // $state.go('stuff.lend');
+    }, function error(err){
+      console.log("Delete Error", err);
+    }); 
+
+    $uibModalInstance.close();
+  }
 
   // OPEN & CLOSE BUTTONS //
   $scope.ok = function(){
@@ -301,9 +312,9 @@ BorrowApp.controller('ModalNewCtrl', [
     // Send form with newItem info to backend
     $http.post('/api/new-stuff/', $scope.newItem)
     .then(function success(res) {
+      console.log("Created");
       $state.go('stuff.lend');
     }, function error(err){
-      alert("Error: Item was not created");
       console.log("Post Error", err);
     });    
   }

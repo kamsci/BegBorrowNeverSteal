@@ -15,16 +15,26 @@ BorrowApp.controller('ModalEditCtrl', [
   // }
 
   $scope.editItem = function(){
-    // Send form with newItem info to backend
+    // Send form with item info to backend
     $http.put('/api/edit-stuff/', $scope.item)
     .then(function success(res) {
       $state.go('stuff.lend');
     }, function error(err){
-      alert("Error: Item was not created");
-      console.log("Post Error", err);
+      console.log("Edit Error", err);
     });    
   }
 
+  $scope.deleteItem = function() {
+    // Send form with item info to backend
+    $http.put('/api/delete-stuff/', $scope.item)
+    .then(function success(res) {
+      // $state.go('stuff.lend');
+    }, function error(err){
+      console.log("Delete Error", err);
+    }); 
+
+    $uibModalInstance.close();
+  }
 
   // OPEN & CLOSE BUTTONS //
   $scope.ok = function(){
