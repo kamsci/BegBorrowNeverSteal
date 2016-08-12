@@ -27,7 +27,7 @@ body {
   font-family: "Candal", sans-serif; }
 
 .who {
-  margin-top: 20px; }
+  margin-top: 40px; }
 
 .who h3 {
   line-height: 28px;
@@ -43,12 +43,13 @@ body {
   padding: 5px 10px;
   margin: 10px 15px;
   border-radius: 5px;
-  color: #1E88E5;
+  border: 1px solid #910142;
+  color: #910142;
   background-color: #F7F6F6;
   font-size: 18px; }
 
 .pill:hover {
-  background-color: #1E88E5;
+  background-color: #910142;
   color: #F7F6F6; }
 
 /*//////////////////
@@ -93,7 +94,7 @@ body {
   float: right; }
 
 .fa {
-  color: #333;
+  color: #910142;
   float: right; }
 
 .stuff {
@@ -102,7 +103,7 @@ body {
   display: inline-block;
   vertical-align: middle;
   margin: 10px 10px;
-  background-color: #626C78;
+  background-color: #7C8F91;
   border-radius: 10px;
   color: #1E88E5; }
 

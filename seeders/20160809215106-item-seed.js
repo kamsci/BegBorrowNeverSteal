@@ -91,6 +91,45 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date()
     },
+    {
+      userId: 3, 
+      name: 'Exploding Kittens (NSFW)',
+      category: 'Indoor Fun',
+      description: 'Fun card game for 2-5 adults. Super random, great for parties where you don\'t want a lot of strategy. (dirty.. not safe for work or children)',
+      imageUrl: 'http://explodingkittens.com/img/order/nsfwbox.png',
+      active: true,
+      borrowed: true,
+      borrowerID: 2,
+      dateBorrowed: new Date(2016, 7, 18),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      userId: 4, 
+      name: '3 person tent',
+      category: 'Outdoor Fun',
+      description: 'Semi- lightweight tent that comfortably fits 2 ppl, but can fit 3 if needed. Mesh top, but has a cover.',
+      imageUrl: 'http://image.geartrade.com/userimages/1/6/1633711560557fa008dc720.jpg',
+      active: true,
+      borrowed: true,
+      borrowerID: 3,
+      dateBorrowed: new Date(2016, 8, 8),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      userId: 4, 
+      name: 'Electric Piano',
+      category: 'Indoor Fun',
+      description: 'Lightweight electric piano with stand. Has different sound options and effects and teaches you songs. Beginner piano books can be included',
+      imageUrl: 'http://www.playingapiano.com/wp-content/uploads/2014/06/electric-piano1-300x160.jpg',
+      active: true,
+      borrowed: true,
+      borrowerID: 3,
+      dateBorrowed: new Date(2016, 8, 8),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
     ],{});
   },
 

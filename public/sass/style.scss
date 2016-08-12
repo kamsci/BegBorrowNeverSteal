@@ -4,7 +4,7 @@ $font-stack-logo2: 'Open Sans Condensed', sans-serif;
 // color scheme
 $color-primary: #1E88E5;
 $color-secondary: #910142;
-$color-tertiary: #626C78;
+$color-tertiary: #7C8F91;
 $font-color: #333;
 $color-background: #F7F6F6;
 $color-available: #70C934;
@@ -42,7 +42,7 @@ body {
   font-family: $font-stack-logo;
 }
 .who {
-  margin-top: 20px;
+  margin-top: 40px;
 }
 .who h3 {
   line-height: 28px;
@@ -58,12 +58,13 @@ body {
   padding: 5px 10px;
   margin: 10px 15px;
   border-radius: 5px;
-  color: $color-primary;
+  border: 1px solid $color-secondary;
+  color: $color-secondary;
   background-color: $color-background;
   font-size: 18px;
 }
 .pill:hover {
-  background-color: $color-primary; 
+  background-color: $color-secondary; 
   color: $color-background;
 }
 // .pill a {
@@ -117,7 +118,7 @@ body {
   float: right;
 }
 .fa {
-  color: $font-color;
+  color: $color-secondary;
   float: right;
 }
 .stuff {
