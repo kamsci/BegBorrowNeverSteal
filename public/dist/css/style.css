@@ -1,11 +1,12 @@
 body {
-  background-color: #EAF1FB; }
+  background-color: #F7F6F6;
+  color: #1C181A; }
 
 /*/////////*/
 /*  Main  */
 .logo {
   font-family: "Candal", sans-serif;
-  color: #3470C9;
+  color: #694959;
   cursor: pointer; }
 
 .logo-b {
@@ -13,14 +14,21 @@ body {
   cursor: pointer; }
 
 .lead-p {
-  line-height: 22px;
+  line-height: 28px;
   font-size: 24px; }
+
+.steal {
+  font-family: "Open Sans Condensed", sans-serif;
+  font-size: 30px; }
+
+.borrow {
+  font-family: "Candal", sans-serif; }
 
 .who {
   margin-top: 20px; }
 
 .who h3 {
-  line-height: 15px;
+  line-height: 28px;
   font-size: 24px;
   margin: 0; }
 
@@ -33,18 +41,12 @@ body {
   padding: 5px 10px;
   margin: 10px 15px;
   border-radius: 5px;
-  background-color: #EAF1FB;
+  background-color: #9E785A;
   font-size: 18px; }
 
 .pill:hover {
-  background-color: #3470C9; }
-
-.pill a {
-  color: #C934BB; }
-
-.pill a:hover {
-  text-decoration: none;
-  color: white; }
+  background-color: #694959;
+  color: #F7F6F6; }
 
 /*//////////////////
 /*  Borrow.html  */
@@ -53,7 +55,7 @@ body {
   height: 100%;
   min-width: 300px;
   font-size: 26px;
-  border-bottom: 1px solid #C934BB;
+  border-bottom: 1px solid #9E785A;
   margin-bottom: 20px; }
 
 .header-nav {
@@ -63,16 +65,16 @@ body {
 .arrow {
   border: none;
   padding: 0 10px;
-  background-color: #EAF1FB;
-  color: #C934BB;
+  background-color: #F7F6F6;
+  color: #9E785A;
   font-size: 40px; }
 
 .header-menu {
   width: 60%;
   display: inline-block;
   text-align: center;
-  border-left: 1px solid #C934BB;
-  border-right: 1px solid #C934BB;
+  border-left: 1px solid #9E785A;
+  border-right: 1px solid #9E785A;
   border-radius: 5px; }
 
 .header-new {
@@ -85,17 +87,17 @@ body {
   border: none; }
 
 .fa {
-  color: #C934BB; }
+  color: #9E785A; }
 
 .stuff {
-  width: 250px;
+  width: 280px;
   height: 350px;
   display: inline-block;
   vertical-align: middle;
   margin: 10px 10px;
-  background-color: #3470C9;
+  background-color: #626C78;
   border-radius: 10px;
-  color: #3470C9; }
+  color: #694959; }
 
 .stuff label {
   width: 30%;
@@ -103,8 +105,9 @@ body {
   text-align: right; }
 
 .image-container {
-  max-width: 230px;
+  max-width: 250px;
   max-height: 150px;
+  min-height: 150px;
   margin: 10px auto;
   text-align: center;
   border-radius: 10px;
@@ -114,20 +117,29 @@ body {
   max-width: 100%;
   max-height: 150px;
   background-position: center;
-  background-repeat: none; }
+  background-repeat: none;
+  border: 1px solid #F7F6F6; }
 
 .description {
   height: 150px;
-  width: 230px;
+  width: 250px;
   background-color: white;
-  color: black;
+  color: #1C181A;
   border-radius: 10px;
   padding: 10px 5px; }
 
+.item-name h4 {
+  height: 40px;
+  width: 95%; }
+
+.edit {
+  display: inline-block;
+  cursor: pointer; }
+
 .summary {
-  width: 230px;
-  height: 150px;
-  margin: 15px 10px;
+  width: 250px;
+  height: 160px;
+  margin: 15px auto;
   padding: 5px 10px;
   background-color: white;
   border-radius: 10px; }
@@ -153,9 +165,6 @@ body {
   font-size: 12px;
   padding: 5px 5px; }
 
-.fa-bullseye {
-  text-align: center; }
-
 .available {
   background-color: #70C934; }
 
@@ -164,77 +173,12 @@ body {
 
 @media (max-width: 670px) {
   .header-nav {
-    width: 100%; }
+    width: 100%;
+    text-align: center; }
   .header-menu {
     display: block;
-    width: 100%; } }
-
-/*Angular animate - Pills */
-/* now the element will fade out before it is removed from the DOM */
-/* The starting CSS styles for the enter animation */
-.fade.ng-enter {
-  transition: 0.5s linear all;
-  opacity: 0; }
-
-The finishing CSS styles for the enter animation
-.fade.ng-enter.ng-enter-active {
-  opacity: 1; }
-
-.fade.ng-leave {
-  transition: 0.5s linear all;
-  opacity: 1; }
-
-.fade.ng-leave.ng-leave-active {
-  opacity: 0; }
-
-/* there is no need to define anything inside of the destination
-CSS class since the keyframe will take charge of the animation */
-.fade.ng-leave {
-  animation: my_fade_animation 0.5s linear;
-  -webkit-animation: my_fade_animation 0.5s linear; }
-
-@keyframes my_fade_animation {
-  from {
-    opacity: 1; }
-  to {
-    opacity: 0; } }
-
-@-webkit-keyframes my_fade_animation {
-  from {
-    opacity: 1; }
-  to {
-    opacity: 0; } }
-
-/*///////////////////////////////
-// Angular animate - Page View */
-/*.container {
-  position: relative;
-}
-.view-frame.ng-enter,
-.view-frame.ng-leave {
-  background: white;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-
-.view-frame.ng-enter {
-  animation: 1s fade-in;
-  z-index: 100;
-}
-
-.view-frame.ng-leave {
-  animation: 1s fade-out;
-  z-index: 99;
-}
-
-@keyframes fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes fade-out {
-  from { opacity: 1; }
-  to   { opacity: 0; }
-}*/
+    width: 100%; }
+  .header-new {
+    display: block;
+    text-align: center;
+    margin: none; } }

@@ -1,27 +1,27 @@
 <div class="stuff" 
-  ng-repeat="item in myItems track by item.id" ng-bind-html="trustAsHtml(myItems)">
-  <div class= "image-container" ng-click="toggle()">
-    <img ng-if="showImage" src="{{ item.imageUrl }}">
-    <p ng-if="!showImage" class="description">{{ item.description }}</p>
+  ng-repeat="item in myItems track by item.id">
+  <div class= "image-container" ng-click="toggle(item)">
+    <img ng-if="item.show" src="{{ item.imageUrl }}">
+    <p ng-if="!item.show" class="description">{{ item.description }}</p>
   </div>
   <div class="summary">
     <div>
-      <h4>{{ item.name }}</h4>
-      <label>Owner:</label><span>{{ item.user.firstName}} {{ item.user.lastName }}</span>
-      <div class="btn-container">
-        <button ng-if="item.borrowed" class="b-btn btn btn-success" ng-click="returnItem(item.id)">Return</button>
-        <!-- Button trigger editLendModal.html -->
-        <button ng-if="!item.borrowed" class="b-btn btn btn-danger" ng-click="open(item)">Lend</button>
+      <div class="item-name">
+        <div class="edit pull-right" type="button" on-click="open(item)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></div>
+        <h4>{{ item.name }}</h4>
       </div>
+      <label>Owner:</label><span>{{ item.user.firstName}} {{ item.user.lastName }}</span>
     </div>
     <div class="summary-borrow">
       <div ng-if="item.borrowed">
         <label>Borrower:</label><span>{{ item.borrower.firstName }} {{ item.borrower.lastName }}</span> 
+        <button class="b-btn btn btn-success pull-right" ng-click="returnItem(item.id)">Return</button>
       </div>
       <div ng-if="!item.borrowed">
         <label>Borrower:</label><span>Available</span> 
+        <!-- Button trigger editLendModal.html -->
+        <button class="b-btn btn btn-danger pull-right" ng-click="open(item)">Lend</button>
       </div>
-      <button ng-class="{ unavailable: item.borrowed, available: !item.borrowed }" class="circle"></button>
       <div ng-if="item.borrowed">
         <label>since:</label><span>{{ item.dateBorrowed | date }}</span>
       </div>

@@ -7,30 +7,45 @@ BorrowApp.controller('LendCtrl',
   var id = selectUser.getId();
   $scope.trustAsHtml = $sce.trustAsHtml
 
-  $scope.showImage = true;
+  $scope.animationsEnabled = false;
+
   // Switch image and view
-  $scope.toggle = function() {
-    if ($scope.showImage) {
-      $scope.showImage = false;
+  $scope.toggle = function(item) {
+    if (item.show) {
+      item.show = false;
     } else {
-      $scope.showImage = true;
+      item.show = true;
     }
   }
+
+  // EDIT ITEM Modal
+  $scope.open = function(item) {
+    console.log("open edit")
+    var modalInstance = $uibModal.open({
+      animation: $scope.animationsEnabled,
+      templateUrl: 'app/templates/editItemModal.html',
+      controller: 'ModalEditCtrl',
+      resolve: {
+        item: item
+      }
+    });
+  };
 
   // GET USER LEND STUFF
   $http.get('/api/lend-stuff/' + id).success(function(data, status) {
     // console.log("myItems", data);
+    for (var i = 0; i < data.length; i++) {
+      data[i].show = true;
+    }
     $scope.myItems = data;
   });
 
   // LEND ITEM MODAL
-  $scope.animationsEnabled = false;
-
   $scope.open = function(item) {
     var modalInstance = $uibModal.open({
       animation: $scope.animationsEnabled,
       templateUrl: 'app/templates/editLendModal.html',
-      controller: 'ModalInstanceCtrl',
+      controller: 'ModalLendCtrl',
       resolve: {
         item: item
       }

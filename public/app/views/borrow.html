@@ -1,20 +1,24 @@
 <div class="stuff" 
   ng-repeat="item in items track by item.id">
-  <div class= "image-container" ng-click="toggle()">
-    <img ng-if="showImage" src="{{ item.imageUrl }}">
-    <p ng-if="!showImage" class="description">{{ item.description }}</p>
+  <div class= "image-container" ng-click="toggle(item)">
+    <img ng-if="item.show" src="{{ item.imageUrl }}">
+    <p ng-if="!item.show" class="description">{{ item.description }}</p>
   </div>
   <div class="summary">
-    <h4>{{ item.name }}</h4>
+    <div class="item-name">
+      <h4>{{ item.name }}</h4>
+    </div>
     <label>Owner:</label><span>{{ item.user.firstName}} {{ item.user.lastName }}</span>
     <div class="summary-borrow">
       <div ng-if="item.borrowed">
         <label>Borrower:</label><span>{{ item.borrower.firstName }} {{ item.borrower.lastName }}</span> 
+        <div ng-class="{ unavailable: item.borrowed, available: !item.borrowed }" class="circle"></div>
       </div>
       <div ng-if="!item.borrowed">
         <label>Borrower:</label><span>Available</span> 
+        <div ng-class="{ unavailable: item.borrowed, available: !item.borrowed }" class="circle"></div>
       </div>
-      <div ng-class="{ unavailable: item.borrowed, available: !item.borrowed }" class="circle"></div>
+<!--       <div ng-class="{ unavailable: item.borrowed, available: !item.borrowed }" class="circle"></div>  -->
       <div ng-if="item.borrowed">
         <label>since:</label><span>{{ item.dateBorrowed | date }}</span>
       </div>

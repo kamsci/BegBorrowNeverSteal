@@ -1,0 +1,37 @@
+<!-- Edit Item Modal -->
+<div class="modal-header">
+  <h3 class="modal-title">Add stuff to Lend</h3>
+</div>
+<div class="modal-body">
+  <form ng-submit="editItem()">
+  <!-- Name -->
+    <div class="form-group">
+      <input type="text" name="name" id="name" placeholder="Name of Stuff" class="form-control" ng-model="newItem.name">
+    </div>
+  <!-- Category -->
+    <div class="form-group">
+      <select name="category" id="category" class="form-control" ng-model="newItem.category">
+        <option value="">-- Select Best Category --</option>
+        <option value="kitchen">Kitchen</option>
+        <option value="tools">Tools</option>
+        <option value="media">Media(Books n' such)</option>
+        <option value="outdoor fun">Outdoor Fun</option>
+        <option value="indoor fun">Indoor Fun</option>
+        <option value="misc">Misc</option>
+      </select>
+    </div>
+  <!-- Description -->
+    <div class="form-group">
+      <textarea name="description" id="description" placeholder="Description" class="form-control" ng-model="newItem.description"></textarea>
+    </div> 
+  <!-- ImageUrl   -->
+    <div class="form-group">
+      <input type="url" name="imageUrl" id="imageUrl" placeholder="Image url (http://)" class="form-control" ng-model="newItem.imageUrl">
+    </div>
+  <!-- Delete button -->
+    <button class="btn btn-danger pull-left" type="submit" ng-click="deleteItem(item.id)"></button>
+  <!-- Submit & cancel Buttons -->
+    <button class="btn btn-primary" type="submit" ng-click="ok()">Submit</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+  </form>
+</div>

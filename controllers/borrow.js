@@ -111,7 +111,20 @@ router.post('/new-stuff', function(req, res) {
   });
 });
 
-router.put('/edit-stuff', function(req, res) {
+router.get('/get-edit/:id', function(req, res) {
+  db.item.find({
+    where: {
+      id: req.params.id
+    }
+  })
+  .then(function(item) {
+    res.send(item);
+  }, function(err) {
+    res.send(err);
+  })
+});
+
+router.put('/edit-stuff/:id', function(req, res) {
   console.log("req.body", req.body)
 
   // db.item.find({

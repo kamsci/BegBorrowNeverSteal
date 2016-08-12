@@ -1,21 +1,18 @@
 <h2 class="text-right logo">BegBorrow<span class="logo-b">NeverSteal</span></h2>
-<p class="lead-p">Because you don't have to steal when you can borrow from a friend! Find out what your friends can lend you and decide what you want to lend to your friends.</p>
+<div class="lead-p">
+  <p>Because you don't have to <span class="steal">steal</span>...</p>
+  <p class="text-right"> ...when you can <span class="borrow">borrow</span> from a friend!</p>
+  <br>
+  <p>Find out what your friends can lend you and decide what you want to lend to your friends.</p>
+</div>
 
 <div class="text-center who">
-<h3>Pray tell,</h3>
-<h3>who are you?</h3>
-<div class="pill-set">
-<!--   <div ng-show="bool" ng-repeat="user in allUsers track by user.id" class="pill"><a href="#/borrow-stuff" ng-click="bool='false'">{{ user.firstName }} {{ user.lastName }}</a></div>
-</div> -->
+  <h3>Pray tell,</h3>
+  <h3>who are you?</h3>
 
-<div class="pill-set" >
-<!-- track by user_id -->
-  <div ng-repeat="user in allUsers track by user.id"> 
-    <button ng-click="select(user.id)" class="pill">  
+  <div class="pill-set" > 
+    <button ng-repeat="user in allUsers track by user.id" ng-click="select(user.id)" class="pill">  
       {{ user.firstName }} {{ user.lastName }}
     </button>
   </div>
 </div>
-</div>
-
-<div 

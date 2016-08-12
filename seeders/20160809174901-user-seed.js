@@ -37,6 +37,14 @@ module.exports = {
         phone:"345-678-9999",
         createdAt: new Date(),
         updatedAt: new Date()
+      },
+      {
+        firstName:"Crysta",
+        lastName:"Collins", 
+        email:"cc@aol.com",
+        phone:"255-678-2361",
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ], {});
   },

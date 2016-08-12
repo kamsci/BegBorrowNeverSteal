@@ -15,12 +15,12 @@ BorrowApp.config(['$stateProvider', '$urlRouterProvider',
     .state('stuff', {
       url: '/',
       templateUrl: 'app/views/nav.html',
-      controller: 'BorrowCtrl'
+      controller: 'NavCtrl'
     })
-    .state('stuff.search', {
-      url: 'stuff/search',
+    .state('stuff.borrow', {
+      url: 'stuff/borrow',
       templateUrl: 'app/views/borrow.html',
-      controller: 'SearchCtrl'
+      controller: 'BorrowCtrl'
     })
     .state('stuff.lend', {
       url: 'stuff/lend',
@@ -62,90 +62,53 @@ BorrowApp.service('selectUser', [function() {
     return this.id;
   }
 }]); // END selectUser service
-////// BORROW CTRL //////
+//// SEARCH CTRL ////
 
 BorrowApp.controller('BorrowCtrl', 
-  ['$scope', '$http', '$state', '$uibModal', '$log', 'selectUser', 
-  function($scope, $http, $state, $uibModal, $log, selectUser) {
+  ['$scope', '$http', 'selectUser',
+  function($scope, $http, selectUser) {
 
-  // NAVIGATE
-  $scope.navTitle = "Stuff to Borrow";
-
-  $scope.home = function() {
-    $state.go('main');
-  };
-
-  $scope.titleChange = function(state){
-    if (state === 'search') {
-      $scope.navTitle = "Stuff to Borrow"; 
-    } else if (state === 'borrowed') {
-      $scope.navTitle = "Stuff I Borrowed"; 
-    } else if (state === 'lend') {
-      $scope.navTitle = "Stuff I Lend"; 
-    };   
-  };
-
-  $scope.prevState = function(){
-      // console.log($state);
-    if ($state.is('stuff.search')) {
-      $state.go('stuff.borrowed');
-      var state = 'borrowed';
-    } else if ($state.is('stuff.borrowed')) {
-      $state.go('stuff.lend')
-      var state = 'lend';
-    } else if ($state.is('stuff.lend')) {
-      $state.go('stuff.search');
-      var state = 'search';
-    };
-    $scope.titleChange(state);
-  };
-  $scope.nextState = function(){
-      // console.log($state, "HERE");
-    if ($state.is('stuff.search')) {
-      $state.go('stuff.lend');
-      var state = 'lend';
-    } else if ($state.is('stuff.lend')) {
-      $state.go('stuff.borrowed')
-      var state = 'borrowed';
-    } else if ($state.is('stuff.borrowed')) {
-      $state.go('stuff.search');
-      var state = 'search';
-    };
-    $scope.titleChange(state);
-  };
-
-  // NEW ITEM MODAL
-  $scope.animationsEnabled = false;
-
-  $scope.open = function() {
-    var modalInstance = $uibModal.open({
-      animation: $scope.animationsEnabled,
-      templateUrl: 'app/templates/newItemModal.html',
-      controller: 'ModalInstanceCtrl',
-      resolve: {}
+  // GET USER SELECTED
+  var id = selectUser.getId();
+  // $http call to backend route that queries db
+  $http.get('/api/borrow-stuff/' + id).success(function(data, status) {
+      for (var i = 0; i < data.length; i++) {
+        data[i].show = true;
+      }
+      $scope.items = data; 
     });
-  };
 
-}]); // END BorrowCtrl
+  // Switch image and view
+  $scope.toggle = function(item) {
+    if (item.show) {
+      item.show = false;
+    } else {
+      item.show = true;
+    }
+  }
+
+}]); // END SearchCtrl
 //// BORROWED CTRL ////
 
 BorrowApp.controller('BorrowedCtrl', 
   ['$scope', '$http', 'selectUser', 
   function($scope, $http, selectUser) {
 
-  $scope.showImage = true;
   // Switch image and view
-  $scope.toggle = function() {
-    if ($scope.showImage) {
-      $scope.showImage = false;
+  $scope.toggle = function(item) {
+    if (item.show) {
+      item.show = false;
     } else {
-      $scope.showImage = true;
+      item.show = true;
     }
   }
 
   var id = selectUser.getId();
 
   $http.get('/api/borrowed-stuff/' + id).success(function(data, status) {
+    for (var i = 0; i < data.length; i++) {
+      data[i].show = true;
+    }    
     $scope.myBorrowedItems = data;
   });
 
@@ -160,30 +123,45 @@ BorrowApp.controller('LendCtrl',
   var id = selectUser.getId();
   $scope.trustAsHtml = $sce.trustAsHtml
 
-  $scope.showImage = true;
+  $scope.animationsEnabled = false;
+
   // Switch image and view
-  $scope.toggle = function() {
-    if ($scope.showImage) {
-      $scope.showImage = false;
+  $scope.toggle = function(item) {
+    if (item.show) {
+      item.show = false;
     } else {
-      $scope.showImage = true;
+      item.show = true;
     }
   }
+
+  // EDIT ITEM Modal
+  $scope.open = function(item) {
+    console.log("open edit")
+    var modalInstance = $uibModal.open({
+      animation: $scope.animationsEnabled,
+      templateUrl: 'app/templates/editItemModal.html',
+      controller: 'ModalEditCtrl',
+      resolve: {
+        item: item
+      }
+    });
+  };
 
   // GET USER LEND STUFF
   $http.get('/api/lend-stuff/' + id).success(function(data, status) {
     // console.log("myItems", data);
+    for (var i = 0; i < data.length; i++) {
+      data[i].show = true;
+    }
     $scope.myItems = data;
   });
 
   // LEND ITEM MODAL
-  $scope.animationsEnabled = false;
-
   $scope.open = function(item) {
     var modalInstance = $uibModal.open({
       animation: $scope.animationsEnabled,
       templateUrl: 'app/templates/editLendModal.html',
-      controller: 'ModalInstanceCtrl',
+      controller: 'ModalLendCtrl',
       resolve: {
         item: item
       }
@@ -218,37 +196,71 @@ BorrowApp.controller('MainCtrl', ['$scope', 'Users', 'selectUser', '$state', fun
   $scope.select = function(id){
     // console.log("state", $state);
     selectUser.setId(id);
-    $state.go('stuff.search');
+    $state.go('stuff.borrow');
   };
   
 }]); // END MainCtrl
-//// MODAL INSTANCE CTRL ////
+//// MODAL EDIT CTRL ////
 
-BorrowApp.controller('ModalInstanceCtrl', [
-  '$scope', '$http', '$uibModalInstance', 'Users', 'selectUser', 'item',
-  function($scope, $http, $uibModalInstance, Users, selectUser, item) {
+BorrowApp.controller('ModalEditCtrl', [
+  '$scope', '$http', '$uibModalInstance', '$state', 'Users', 'selectUser',
+  function($scope, $http, $uibModalInstance, $state, Users, selectUser) {
   
   var id = selectUser.getId();
+  var itemId = null;
 
-  // NEW ITEM //
-  $scope.newItem = {
-    user_id: id,
-    name: '',
-    category: '',
-    description: '',
-    imageUrl: ''
-  };
+  // $scope.editableItem = {
+  //   user_id: id,
+  //   name: '',
+  //   category: '',
+  //   description: '',
+  //   imageUrl: ''
+  // };
 
-  $scope.createItem = function(newItem){
+  // EDIT ITEM //
+  $scope.editRequest = function(id) {
+    console.long("in edit");
+    $scope.itemId = id;
+    $http.get('api/get-edit' + id)
+    .then(function(res) {
+      console.log("EDIT", res);
+      $scope.editableItem = {
+        user_id: id,
+        name: res.name,
+        category: res.category,
+        description: res.description,
+        imageUrl: res.imageUrl
+      };
+    });  
+  }
+
+  $scope.editItem = function(editableItem){
     // Send form with newItem info to backend
-    $http.post('/api/new-stuff/', $scope.newItem)
+    $http.put('/api/edit-stuff/' + $scope.itemId, $scope.editableItem)
     .then(function success(res) {
-      console.log("Post Success", res);
+      $state.go('stuff.lend');
     }, function error(err){
       alert("Error: Item was not created");
       console.log("Post Error", err);
     });    
   }
+
+
+  // OPEN & CLOSE BUTTONS //
+  $scope.ok = function(){
+    $uibModalInstance.close();
+  };
+
+  $scope.cancel = function() {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+}]); // END modal new Ctrl
+//// MODAL NEW CTRL ////
+
+BorrowApp.controller('ModalLendCtrl', [
+  '$scope', '$http', '$uibModalInstance', '$state', 'Users', 'selectUser', 'item',
+  function($scope, $http, $uibModalInstance, $state, Users, selectUser, item) {
 
   // Users to lend to
   Users.query(function success(data) {
@@ -259,8 +271,6 @@ BorrowApp.controller('ModalInstanceCtrl', [
 
 
   // LEND ITEM //
-  console.log("item.id", item.id);
-
   $scope.lendItemUpdate = {
     // item.id comes from open() resolve option
     item_id: item.id,
@@ -269,10 +279,9 @@ BorrowApp.controller('ModalInstanceCtrl', [
 
   $scope.lendItem = function() {
     // update borrow status of item
-    console.log("Lending..", $scope.lendItemUpdate);
     $http.put('/api/lend-stuff/', $scope.lendItemUpdate)
     .then(function(data) {
-      console.log("Item Lent");
+      $state.go('stuff.lend');
     }, function(err) {
       console.log("Lend Item Error", err);
     });
@@ -289,30 +298,109 @@ BorrowApp.controller('ModalInstanceCtrl', [
   };
 
 }]); // END modal instance Ctrl
-//// SEARCH CTRL ////
+//// MODAL NEW CTRL ////
 
-BorrowApp.controller('SearchCtrl', 
-  ['$scope', '$http', 'selectUser',
-  function($scope, $http, selectUser) {
-
-  // GET USER SELECTED
+BorrowApp.controller('ModalNewCtrl', [
+  '$scope', '$http', '$uibModalInstance', '$state', 'Users', 'selectUser',
+  function($scope, $http, $uibModalInstance, $state, Users, selectUser) {
+  
   var id = selectUser.getId();
-  // $http call to backend route that queries db
-  $http.get('/api/borrow-stuff/' + id).success(function(data, status) {
-      // console.log('Data1', data);
-      $scope.items = data;
-    });
 
-  $scope.showImage = true;
-  // Switch image and view
-  $scope.toggle = function() {
-    if ($scope.showImage) {
-      $scope.showImage = false;
-    } else {
-      $scope.showImage = true;
-    }
+  // NEW ITEM //
+  $scope.newItem = {
+    user_id: id,
+    name: '',
+    category: '',
+    description: '',
+    imageUrl: ''
+  };
+
+  $scope.createItem = function(newItem){
+    // Send form with newItem info to backend
+    $http.post('/api/new-stuff/', $scope.newItem)
+    .then(function success(res) {
+      $state.go('stuff.lend');
+    }, function error(err){
+      alert("Error: Item was not created");
+      console.log("Post Error", err);
+    });    
   }
 
-}]); // END SearchCtrl
+
+  // OPEN & CLOSE BUTTONS //
+  $scope.ok = function(){
+    $uibModalInstance.close();
+  };
+
+  $scope.cancel = function() {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+}]); // END modal new Ctrl
+////// BORROW CTRL //////
+
+BorrowApp.controller('NavCtrl', 
+  ['$scope', '$http', '$state', '$uibModal', '$log', 'selectUser', 
+  function($scope, $http, $state, $uibModal, $log, selectUser) {
+
+  // NAVIGATE
+  $scope.navTitle = "Stuff to Borrow";
+
+  $scope.home = function() {
+    $state.go('main');
+  };
+
+  $scope.titleChange = function(state){
+    if (state === 'borrow') {
+      $scope.navTitle = "Stuff to Borrow"; 
+    } else if (state === 'borrowed') {
+      $scope.navTitle = "Stuff I Borrowed"; 
+    } else if (state === 'lend') {
+      $scope.navTitle = "Stuff I Lend"; 
+    };   
+  };
+
+  $scope.prevState = function(){
+      // console.log($state);
+    if ($state.is('stuff.borrow')) {
+      $state.go('stuff.borrowed');
+      var state = 'borrowed';
+    } else if ($state.is('stuff.borrowed')) {
+      $state.go('stuff.lend')
+      var state = 'lend';
+    } else if ($state.is('stuff.lend')) {
+      $state.go('stuff.borrow');
+      var state = 'borrow';
+    };
+    $scope.titleChange(state);
+  };
+  $scope.nextState = function(){
+      // console.log($state, "HERE");
+    if ($state.is('stuff.borrow')) {
+      $state.go('stuff.lend');
+      var state = 'lend';
+    } else if ($state.is('stuff.lend')) {
+      $state.go('stuff.borrowed')
+      var state = 'borrowed';
+    } else if ($state.is('stuff.borrowed')) {
+      $state.go('stuff.borrow');
+      var state = 'borrow';
+    };
+    $scope.titleChange(state);
+  };
+
+  // NEW ITEM MODAL
+  $scope.animationsEnabled = false;
+
+  $scope.open = function() {
+    var modalInstance = $uibModal.open({
+      animation: $scope.animationsEnabled,
+      templateUrl: 'app/templates/newItemModal.html',
+      controller: 'ModalNewCtrl',
+      resolve: {}
+    });
+  };
+
+}]); // END BorrowCtrl
 
 //# sourceMappingURL=concat.js.map

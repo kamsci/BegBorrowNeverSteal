@@ -65,6 +65,32 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date()
     },
+    {
+      userId: 2, 
+      name: 'JetBoil Coffee Press',
+      category: 'Outdoor Fun',
+      description: '2c jetboil with a coffee press adaptor. Gas not included. Please only water in this jetboil, no food.',
+      imageUrl: 'http://whatsinyourpack.com/wp-content/uploads/2014/09/jetboil_coffee_press-337x400.jpg',
+      active: true,
+      borrowed: false,
+      borrowerID: null,
+      dateBorrowed: null,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      userId: 1, 
+      name: 'Daring Greatly',
+      category: 'media',
+      description: 'Daring Greatly: How the Courage to Be Vulnerable Transforms the Way We Live, Love, Parent, and Lead. Book by Brené Brown',
+      imageUrl: 'https://tedconfblog.files.wordpress.com/2012/09/daringgreatly_final525-resized-600.png',
+      active: true,
+      borrowed: true,
+      borrowerID: 4,
+      dateBorrowed: new Date(2016, 3, 2),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
     ],{});
   },
 

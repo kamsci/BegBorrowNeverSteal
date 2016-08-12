@@ -15,12 +15,12 @@ BorrowApp.config(['$stateProvider', '$urlRouterProvider',
     .state('stuff', {
       url: '/',
       templateUrl: 'app/views/nav.html',
-      controller: 'BorrowCtrl'
+      controller: 'NavCtrl'
     })
-    .state('stuff.search', {
-      url: 'stuff/search',
+    .state('stuff.borrow', {
+      url: 'stuff/borrow',
       templateUrl: 'app/views/borrow.html',
-      controller: 'SearchCtrl'
+      controller: 'BorrowCtrl'
     })
     .state('stuff.lend', {
       url: 'stuff/lend',

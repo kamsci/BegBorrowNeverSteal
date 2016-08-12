@@ -16,7 +16,7 @@ BorrowApp.controller('MainCtrl', ['$scope', 'Users', 'selectUser', '$state', fun
   $scope.select = function(id){
     // console.log("state", $state);
     selectUser.setId(id);
-    $state.go('stuff.search');
+    $state.go('stuff.borrow');
   };
   
 }]); // END MainCtrl
