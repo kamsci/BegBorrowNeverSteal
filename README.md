@@ -16,7 +16,7 @@ WHAT -
 The goal was to separate frontend action and activity from the back end. Angular is all front end, taling to Node and Express on the backend, and using a SQL/Postgresql database.
 
 WHY - 
-When thinking about coding from a DRY, RESTfull, and MVC perspective, you want to have clear roles for each tool and not allow bleeding over, express doesn't do any frontend routeing, and Angular doesn't talk to the database. This project was an exersice in making the very front (HTML) talk to the very backe (DB) through the proper use of appropriate channels. 
+When thinking about coding from a DRY, RESTfull, and MVC perspective, you want to have clear roles for each tool and not allow bleeding over.  Express doesn't do any frontend routing, and Angular doesn't talk to the database. This project was an exersice in making the very front (HTML) talk to the very backend (DB) through the proper use of appropriate channels. 
 
 How - 
 Introducing... the PEAN stack. Postgresql - Express - Angular - Node.js
@@ -24,6 +24,8 @@ Introducing... the PEAN stack. Postgresql - Express - Angular - Node.js
 ## MVP User Stories
 As a loaner
 * Add items to be borrowed
+* Edit an item
+* Delete an item
 * See who has my stuff
  * when they borrowed it
 * Mark items as On-Loan
@@ -42,8 +44,6 @@ See wireframes in Axure: http://wpiif7.axshare.com
 
 ## Feature Backlog
 As a loaner
-*  Edit an item
-*  Delete an item
 *  View Items by available or not
 
 As a borrower
