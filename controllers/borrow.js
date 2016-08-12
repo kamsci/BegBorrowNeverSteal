@@ -125,35 +125,23 @@ router.get('/get-edit/:id', function(req, res) {
   })
 });
 
-router.put('/edit-stuff/:id', function(req, res) {
+router.put('/edit-stuff/', function(req, res) {
   console.log("req.body", req.body)
 
-  // db.item.find({
-  //   where: { id: req.body.id }
-  // }).then(function(item) {
-  //   if (req.body.borrowed) {
-  //     item.update({
-  //       borrowed: false,
-  //       borrowerID: null,
-  //       dateBorrowed: null
-  //     }).then(function(data) {
-  //       console.log("Edit Success", data);
-  //     }, function(err) {
-  //       console.log("Edit Error", err);
-  //     })  
-  //   } else {
-  //     item.update({
-  //       borrowed: true,
-  //       borrowerID: null,
-  //       dateBorrowed: null
-  //     }).then(function(data) {
-  //       console.log("Edit Success", data);
-  //     }, function(err) {
-  //       console.log("Edit Error", err);
-  //     })  
-  //   }
-    
-  // })
+  db.item.find({
+    where: { id: req.body.id }
+  }).then(function(item) {
+      item.update({
+        name: req.body.name,
+        category: req.body.category,
+        description: req.body.description,
+        imageUrl: req.body.imageUrl 
+      }).then(function(data) {
+        console.log("Edit Success", data);
+      }, function(err) {
+        console.log("Edit Error", err);
+      })  
+  })
 });
 
 module.exports = router;

@@ -141,7 +141,9 @@ BorrowApp.controller('LendCtrl',
       animation: $scope.animationsEnabled,
       templateUrl: 'app/templates/editItemModal.html',
       controller: 'ModalEditCtrl',
-      resolve: {}
+      resolve: {
+        item: item
+      }
     });
   };
 
@@ -201,40 +203,22 @@ BorrowApp.controller('MainCtrl', ['$scope', 'Users', 'selectUser', '$state', fun
 //// MODAL EDIT CTRL ////
 
 BorrowApp.controller('ModalEditCtrl', [
-  '$scope', '$http', '$uibModalInstance', '$state', 'Users', 'selectUser',
-  function($scope, $http, $uibModalInstance, $state, Users, selectUser) {
+  '$scope', '$http', '$uibModalInstance', '$state', 'Users', 'item', 'selectUser',
+  function($scope, $http, $uibModalInstance, $state, Users, item, selectUser) {
   
   var id = selectUser.getId();
-  var itemId = null;
+  $scope.item = item;
 
-  // $scope.editableItem = {
-  //   user_id: id,
-  //   name: '',
-  //   category: '',
-  //   description: '',
-  //   imageUrl: ''
-  // };
+  // $scope.item = {
+  //   name: item.name,
+  //   category: item.category,
+  //   description: item.description,
+  //   imageUrl: item.imageUrl 
+  // }
 
-  // EDIT ITEM //
-  $scope.editRequest = function(id) {
-    console.long("in edit");
-    $scope.itemId = id;
-    $http.get('api/get-edit' + id)
-    .then(function(res) {
-      console.log("EDIT", res);
-      $scope.editableItem = {
-        user_id: id,
-        name: res.name,
-        category: res.category,
-        description: res.description,
-        imageUrl: res.imageUrl
-      };
-    });  
-  }
-
-  $scope.editItem = function(editableItem){
+  $scope.editItem = function(){
     // Send form with newItem info to backend
-    $http.put('/api/edit-stuff/' + $scope.itemId, $scope.editableItem)
+    $http.put('/api/edit-stuff/', $scope.item)
     .then(function success(res) {
       $state.go('stuff.lend');
     }, function error(err){

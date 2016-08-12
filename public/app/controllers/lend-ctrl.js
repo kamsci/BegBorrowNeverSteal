@@ -25,7 +25,9 @@ BorrowApp.controller('LendCtrl',
       animation: $scope.animationsEnabled,
       templateUrl: 'app/templates/editItemModal.html',
       controller: 'ModalEditCtrl',
-      resolve: {}
+      resolve: {
+        item: item
+      }
     });
   };
 
