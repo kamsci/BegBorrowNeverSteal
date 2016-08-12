@@ -2,10 +2,10 @@
 $font-stack-logo:  'Candal', sans-serif;
 $font-stack-logo2: 'Open Sans Condensed', sans-serif;
 // color scheme
-$color-primary: #694959;
-$color-secondary: #9E785A;
+$color-primary: #1E88E5;
+$color-secondary: #910142;
 $color-tertiary: #626C78;
-$font-color: #1C181A;
+$font-color: #333;
 $color-background: #F7F6F6;
 $color-available: #70C934;
 $color-unavailable: #C94334;
@@ -31,6 +31,8 @@ body {
 .lead-p {
   line-height: 28px;
   font-size: 24px;
+  max-width: 750px;
+  margin: auto auto;
 }
 .steal {
   font-family: $font-stack-logo2;
@@ -56,7 +58,8 @@ body {
   padding: 5px 10px;
   margin: 10px 15px;
   border-radius: 5px;
-  background-color: $color-secondary;
+  color: $color-primary;
+  background-color: $color-background;
   font-size: 18px;
 }
 .pill:hover {
@@ -78,7 +81,7 @@ body {
   height: 100%;
   min-width: 300px;
   font-size: 26px;
-  border-bottom: 1px solid $color-secondary;
+  border-bottom: 1px solid $font-color;
   margin-bottom: 20px;
 }
 .header-nav {
@@ -89,29 +92,33 @@ body {
   border: none;
   padding: 0 10px;
   background-color: $color-background;
-  color: $color-secondary;
+  color: $font-color;
   font-size: 40px;
 }
 .header-menu {
   width: 60%;
   display: inline-block;
   text-align: center;
-  border-left: 1px solid $color-secondary;
-  border-right: 1px solid $color-secondary;
+  border-left: 1px solid $font-color;
+  border-right: 1px solid $font-color;
   border-radius: 5px;
 }
 .header-new {
-  // width: 20%;
+  width: 15%;
   cursor: pointer;
   display: inline-block;
   margin: 0;
+  margin-top: 20px;
+  margin-right: 10px;
   padding: 0;
-  margin-left: 20px;
+  // margin-left: 20px;
   background-color: none !important;
   border: none;
+  float: right;
 }
 .fa {
-  color: $color-secondary;
+  color: $font-color;
+  float: right;
 }
 .stuff {
   width: 280px;
@@ -206,12 +213,14 @@ body {
     text-align: center;
   }
   .header-menu {
-    display: block;
-    width: 100%
+    display: inline-block;
+    width: 80%;
   }
   .header-new {
-    display: block;
+    width: 15%;
+    // display: block;
     text-align: center;
-    margin: none;
+    margin: 0;
+    float: none;
   }
 }

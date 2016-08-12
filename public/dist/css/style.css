@@ -1,12 +1,12 @@
 body {
   background-color: #F7F6F6;
-  color: #1C181A; }
+  color: #333; }
 
 /*/////////*/
 /*  Main  */
 .logo {
   font-family: "Candal", sans-serif;
-  color: #694959;
+  color: #1E88E5;
   cursor: pointer; }
 
 .logo-b {
@@ -15,7 +15,9 @@ body {
 
 .lead-p {
   line-height: 28px;
-  font-size: 24px; }
+  font-size: 24px;
+  max-width: 750px;
+  margin: auto auto; }
 
 .steal {
   font-family: "Open Sans Condensed", sans-serif;
@@ -41,11 +43,12 @@ body {
   padding: 5px 10px;
   margin: 10px 15px;
   border-radius: 5px;
-  background-color: #9E785A;
+  color: #1E88E5;
+  background-color: #F7F6F6;
   font-size: 18px; }
 
 .pill:hover {
-  background-color: #694959;
+  background-color: #1E88E5;
   color: #F7F6F6; }
 
 /*//////////////////
@@ -55,7 +58,7 @@ body {
   height: 100%;
   min-width: 300px;
   font-size: 26px;
-  border-bottom: 1px solid #9E785A;
+  border-bottom: 1px solid #333;
   margin-bottom: 20px; }
 
 .header-nav {
@@ -66,28 +69,32 @@ body {
   border: none;
   padding: 0 10px;
   background-color: #F7F6F6;
-  color: #9E785A;
+  color: #333;
   font-size: 40px; }
 
 .header-menu {
   width: 60%;
   display: inline-block;
   text-align: center;
-  border-left: 1px solid #9E785A;
-  border-right: 1px solid #9E785A;
+  border-left: 1px solid #333;
+  border-right: 1px solid #333;
   border-radius: 5px; }
 
 .header-new {
+  width: 15%;
   cursor: pointer;
   display: inline-block;
   margin: 0;
+  margin-top: 20px;
+  margin-right: 10px;
   padding: 0;
-  margin-left: 20px;
   background-color: none !important;
-  border: none; }
+  border: none;
+  float: right; }
 
 .fa {
-  color: #9E785A; }
+  color: #333;
+  float: right; }
 
 .stuff {
   width: 280px;
@@ -97,7 +104,7 @@ body {
   margin: 10px 10px;
   background-color: #626C78;
   border-radius: 10px;
-  color: #694959; }
+  color: #1E88E5; }
 
 .stuff label {
   width: 30%;
@@ -124,7 +131,7 @@ body {
   height: 150px;
   width: 250px;
   background-color: white;
-  color: #1C181A;
+  color: #333;
   border-radius: 10px;
   padding: 10px 5px; }
 
@@ -176,9 +183,10 @@ body {
     width: 100%;
     text-align: center; }
   .header-menu {
-    display: block;
-    width: 100%; }
+    display: inline-block;
+    width: 80%; }
   .header-new {
-    display: block;
+    width: 15%;
     text-align: center;
-    margin: none; } }
+    margin: 0;
+    float: none; } }

@@ -7,11 +7,10 @@
 </div>
 
 <div class="text-center who">
-  <h3>Pray tell,</h3>
-  <h3>who are you?</h3>
+  <h3>Pray tell, who are you?</h3>
 
   <div class="pill-set" > 
-    <button ng-repeat="user in allUsers track by user.id" ng-click="select(user.id)" class="pill">  
+    <button ng-repeat="user in allUsers track by user.id" ng-click="select(user.id)" class="pill btn btn-default">  
       {{ user.firstName }} {{ user.lastName }}
     </button>
   </div>
