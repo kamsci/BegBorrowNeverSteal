@@ -9,17 +9,18 @@ A site where a community of friends can list all the items they have that they a
 * Node.js
  * Express.js (web-server)
 * Postgresql (database)
+* Gulp
 
 
 ## Approach
-WHAT - 
+WHAT   
 The goal was to separate frontend action and activity from the back end. Angular is all front end, taling to Node and Express on the backend, and using a SQL/Postgresql database.
 
-WHY - 
+WHY    
 When thinking about coding from a DRY, RESTfull, and MVC perspective, you want to have clear roles for each tool and not allow bleeding over.  Express doesn't do any frontend routing, and Angular doesn't talk to the database. This project was an exersice in making the very front (HTML) talk to the very backend (DB) through the proper use of appropriate channels. 
 
 How - 
-Introducing... the PEAN stack. Postgresql - Express - Angular - Node.js
+Introducing... the PEAN stack. Postgresql - Express - Angular - Node.js with Gulp on the side for easy developer expansion. 
 
 ## MVP User Stories
 As a loaner
