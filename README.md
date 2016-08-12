@@ -12,13 +12,13 @@ A site where a community of friends can list all the items they have that they a
 
 
 ## Approach
-WHAT
+WHAT - 
 The goal was to separate frontend action and activity from the back end. Angular is all front end, taling to Node and Express on the backend, and using a SQL/Postgresql database.
 
-WHY
+WHY - 
 When thinking about coding from a DRY, RESTfull, and MVC perspective, you want to have clear roles for each tool and not allow bleeding over, express doesn't do any frontend routeing, and Angular doesn't talk to the database. This project was an exersice in making the very front (HTML) talk to the very backe (DB) through the proper use of appropriate channels. 
 
-How
+How - 
 Introducing... the PEAN stack. Postgresql - Express - Angular - Node.js
 
 ## MVP User Stories
