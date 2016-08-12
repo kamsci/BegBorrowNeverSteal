@@ -4,6 +4,7 @@ var router = express.Router();
 
 ////////////////////////////////////////
 
+// All routes begin with root + /api
 router.get('/users', function(req, res) {
   db.user.findAll().then(function(users) {
     res.send(users);
