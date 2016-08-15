@@ -9,7 +9,7 @@ A site where a community of friends can list all the items they have that they a
 * Node.js
  * Express.js (web-server)
 * Postgresql (database)
-* Gulp
+* Gulp.js
 
 
 ## Approach
@@ -41,7 +41,6 @@ See wireframes in Axure: http://wpiif7.axshare.com
 
 ## Outstanding Blockers
 * After a new item is added or edited, signal Express to call the database again to trigger a change in the front end without having to switch views and come back
-* Getting 2 ui.bootstrap modals in the same Angualr controller
 
 ## Feature Backlog
 As a loaner
