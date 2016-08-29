@@ -93,7 +93,6 @@ router.get('/borrowed-stuff/:id', function(req, res) {
 });
 
 router.post('/new-stuff', function(req, res) {
-  console.log('FORM:', req.body);
   db.item.create({
     userId: req.body.user_id,
     name: req.body.name,
@@ -148,7 +147,8 @@ router.put('/delete-stuff', function(req, res) {
   db.item.destroy({
     where: { id: req.body.id }
   }).then(function(data) {
-    res.send(data);
+    console.log(data)
+    res.json(data);
   });
 });
 

@@ -2,10 +2,14 @@ var expect = require('chai').expect;
 var request = require('supertest');
 var app = require('../index.js');
 var db = require('../models');
+var i = null;
 //////////////////////////////////////
 
 //// INSTRUCTIONS ////
-// Run sequelize db:seed:all in the test database to have appropriate data for testing 
+// Run command 'sequelize --env test db:migrate' to create db in test
+// Run sequelize command 'sequelize --env test db:seed:all'
+// NOTE: run in test database ONLY ONCE to have appropriate data for testing 
+// Tun tests with command 'npm test' in terminal
 /////////////////////
 
 describe('POST /signin - Create a user: NEW FEATURE', function(done) {
@@ -38,7 +42,7 @@ describe('GET /borrow-stuff/:id - Displays items of non-currentlly-selected user
 
 })
 
-describe('/new-stuff - Creating an item by user', function() {
+describe('GET POST /new-stuff - Creating an item by user', function() {
   it('should give a 200 response - /new-stuff', function(done) {
     request(app).get("/api/new-stuff").expect(200, done);
   })
@@ -57,7 +61,7 @@ describe('/new-stuff - Creating an item by user', function() {
         borrowerID: null
       })
       .end(function(err, res) {
-        console.log(res.body);
+        i = res.body.id
         expect(res.body).to.have.property('userId', 1);
         expect(res.body).to.have.property('name', 'Yarn');
         expect(res.body).to.have.property('category', 'Indoor Fun');
@@ -70,6 +74,68 @@ describe('/new-stuff - Creating an item by user', function() {
         done();
       })
   });
+});
+
+describe(' GET /edit-stuff/ & POST /get-edit/:id - Edit an item', function() {
+  it('should give a 200 response - /get-edit/:id', function(done) {
+    request(app).get('/api/get-edit/:id').expect(200, done);
+  })
+  it('should return current info on item', function(done) {
+    request(app).get('/api/get-edit/' + i)
+      .end(function(err, res) {
+        expect(res.body).to.have.property('userId', 1);
+        expect(res.body).to.have.property('name', 'Yarn');
+        expect(res.body).to.have.property('category', 'Indoor Fun');
+        expect(res.body).to.have.property('description', 'Rainbow yarn, medium weight, great for scarves');
+        expect(res.body).to.have.property('imageUrl', 'http://static1.squarespace.com/static/524de78fe4b055fcea8d1784/t/543ae028e4b039cd17f641a0/1413145514416/zauberzeug-superchunk-yarn-neon-rainbow-gradient');
+        done();
+      })
+  })
+  it('should give a 200 response - /edit-stuff/', function(done) {
+    request(app).get('/api/edit-stuff/').expect(200, done);
+  })
+  it('should update an item with new info', function(done) {
+    request(app).put('/api/edit-stuff/')
+      .type('form')
+      .send({
+        id: i,
+        name: 'Pocket Sand',
+        category: 'Tools',
+        description: 'For defense.',
+        imageUrl: 'http://www.csg.space/wp-content/uploads/2015/12/Sand.jpg'
+      })
+      .end(function(err, res) {
+        console.log("RES", res.body);
+        expect(res.body).to.have.property('id', i);
+        expect(res.body).to.have.property('name', 'Pocket Sand');
+        expect(res.body).to.have.property('category', 'Tools');
+        expect(res.body).to.have.property('description', 'For defense');
+        expect(res.body).to.have.property('imageUrl', 'http://www.csg.space/wp-content/uploads/2015/12/Sand.jpg');
+      })
+      done(); 
+  });
+});
+
+describe('/delete-stuff - Delete an item', function() {
+  it('should give a 200 response - /delete-stuff', function(done) {
+    request(app).get('/api/delete-stuff').expect(200, done);
+  })
+  it('should delete an item from the db', function(done) {
+    request(app).put('/api/delete-stuff')
+    .type('form')
+    .send({
+      id: i
+    })
+    .end(function(err, res) {
+      // console.log("Err", err, "res", res);
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("Res:", res.body);
+      }
+      done();
+    })
+  })
 });
 
 // describe('Blobs', function() {
