@@ -54,5 +54,6 @@ As a borrower
 *  View Items by available or not
 
 All
+* Add tests
 * Add user auth
 * Add animations
