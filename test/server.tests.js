@@ -3,29 +3,42 @@ var request = require('supertest');
 var app = require('../index.js');
 var db = require('../models');
 var i = null;
+
 //////////////////////////////////////
 
-//// INSTRUCTIONS ////
+//// TESTING INSTRUCTIONS ////
 // Run command 'sequelize --env test db:migrate' to create db in test
 // Run sequelize command 'sequelize --env test db:seed:all'
 // NOTE: run in test database ONLY ONCE to have appropriate data for testing 
 // Tun tests with command 'npm test' in terminal
-/////////////////////
 
-describe('POST /signin - Create a user: NEW FEATURE', function(done) {
+////////////////////////////////////
+
+describe('POST /signin - Create a user: NEW FEATURE', function() {
   it('should give a 200 response');
   it('should create a user if the email is unique and all fields complete');
   it('should not create a user if the email is not unique');
   it('should not create a user if a field is missing');
+  it('should take new user to borrow page');
 });
 
-describe('GET /login - User can login: NEW FEATURE', function(done) {
+describe('GET /login - User can login: NEW FEATURE', function() {
   it('should give you a 200 response');
   it('should verify user exits in db, log them in and redirect to borrow page');
   it('should verify if user does not exist, they are redirected to signin');
 });
 
-describe('GET /borrow-stuff/:id - Displays items of non-currentlly-selected users only', function(done) {
+describe('GET /api/filter-available: NEW FEATURE', function() {
+  it('should give you a 200 response');
+  it('should only return items with "borrowed"="false" when "Available only" checkbox checked');
+});
+
+describe('GET /api/filter-catagory: NEW FEATURE', function() {
+  it('should give you a 200 response');
+  it('should only return items by category when category chosen from "Category"');
+});
+
+describe('GET /borrow-stuff/:id - Displays items of non-currently-selected users only', function() {
   it('should give you a 200 response', function(done) {
     request(app).get('/api/borrow-stuff/' + 1).expect(200, done);
   });
@@ -39,8 +52,29 @@ describe('GET /borrow-stuff/:id - Displays items of non-currentlly-selected user
       done();
     })
   });
+});
 
-})
+describe('GET /borrowed-stuff/:id - Displays items borrowed by currently-selected user', function() {
+  it('should give you a 200 response', function(done) {
+    request(app).get('/api/borrowed-stuff/' + 1).expect(200, done);
+  })
+  it('should return items with "borrowed"= "true" && "borrowerID"= 1', function(done) {
+    request(app).get('/api/borrowed-stuff/' + 1)
+      .type('form')
+      .send({
+        borrowerID: 1
+      })
+      .end(function(err, res) {
+        console.log(res.body);
+        for(var i = 0; i < res.body.length; i++) {
+          expect(res.body[i].borrowed).to.equal(true);
+          expect(res.body[i].borrowerID).to.equal(1);
+          expect(res.body[i].borrower.firstName).to.equal('Amy'); 
+        }
+        done();
+      })
+  });
+});
 
 describe('GET POST /new-stuff - Creating an item by user', function() {
   it('should give a 200 response - /new-stuff', function(done) {
@@ -105,7 +139,6 @@ describe(' GET /edit-stuff/ & POST /get-edit/:id - Edit an item', function() {
         imageUrl: 'http://www.csg.space/wp-content/uploads/2015/12/Sand.jpg'
       })
       .end(function(err, res) {
-        console.log("RES", res.body);
         expect(res.body).to.have.property('id', i);
         expect(res.body).to.have.property('name', 'Pocket Sand');
         expect(res.body).to.have.property('category', 'Tools');
