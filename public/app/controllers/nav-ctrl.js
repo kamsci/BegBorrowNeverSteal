@@ -1,4 +1,4 @@
-////// BORROW CTRL //////
+////// NAV CTRL //////
 
 BorrowApp.controller('NavCtrl', 
   ['$scope', '$http', '$state', '$uibModal', '$log', 'selectUser', 

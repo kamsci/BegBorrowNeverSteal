@@ -7,12 +7,6 @@ BorrowApp.controller('ModalEditCtrl', [
   var id = selectUser.getId();
   $scope.item = item;
 
-  // $scope.item = {
-  //   name: item.name,
-  //   category: item.category,
-  //   description: item.description,
-  //   imageUrl: item.imageUrl 
-  // }
 
   $scope.editItem = function(){
     // Send form with item info to backend

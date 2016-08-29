@@ -2,7 +2,7 @@ var expect = require('chai').expect;
 var request = require('supertest');
 var app = require('../index.js');
 var db = require('../models');
-var i = null;
+var item = null;
 
 //////////////////////////////////////
 
@@ -50,20 +50,36 @@ describe('GET /borrow-stuff/:id - Displays items of non-currently-selected users
         expect(res.body[i].userId).to.not.equal(1);  
       }
       done();
-    })
+    });
+  });
+});
+
+describe('GET lend-stuff/:id - Dispalys items owned by currently-selected user for lending', function() {
+  it('should give you a 200 response', function(done) {
+    request(app).get('/api/lend-stuff/' + 1).expect(200, done);
+  });
+  it('should return items with currently-selected userId(1)', function(done) {
+    request(app).get('/api/lend-stuff/' + 1)
+      .end(function(err, res) {
+        console.log(res.body);
+        for(var i = 0; i < res.body.length; i++) {
+          expect(res.body[i].userId).to.equal(1);
+        }
+        done();
+      });
   });
 });
 
 describe('GET /borrowed-stuff/:id - Displays items borrowed by currently-selected user', function() {
   it('should give you a 200 response', function(done) {
     request(app).get('/api/borrowed-stuff/' + 1).expect(200, done);
-  })
+  });
   it('should return items with "borrowed"= "true" && "borrowerID"= 1', function(done) {
     request(app).get('/api/borrowed-stuff/' + 1)
       .type('form')
-      .send({
-        borrowerID: 1
-      })
+      // .send({
+      //   borrowerID: 1
+      // })
       .end(function(err, res) {
         console.log(res.body);
         for(var i = 0; i < res.body.length; i++) {
@@ -72,14 +88,14 @@ describe('GET /borrowed-stuff/:id - Displays items borrowed by currently-selecte
           expect(res.body[i].borrower.firstName).to.equal('Amy'); 
         }
         done();
-      })
+      });
   });
 });
 
 describe('GET POST /new-stuff - Creating an item by user', function() {
   it('should give a 200 response - /new-stuff', function(done) {
     request(app).get("/api/new-stuff").expect(200, done);
-  })
+  });
   it('should create a single item on /new-stuff', function(done) {
     request(app).post('/api/new-stuff')
       .type('form')
@@ -95,7 +111,7 @@ describe('GET POST /new-stuff - Creating an item by user', function() {
         borrowerID: null
       })
       .end(function(err, res) {
-        i = res.body.id
+        item = res.body.id
         expect(res.body).to.have.property('userId', 1);
         expect(res.body).to.have.property('name', 'Yarn');
         expect(res.body).to.have.property('category', 'Indoor Fun');
@@ -106,16 +122,16 @@ describe('GET POST /new-stuff - Creating an item by user', function() {
         expect(res.body).to.have.property('dateBorrowed', null);
         expect(res.body).to.have.property('borrowerID', null);
         done();
-      })
+      });
   });
 });
 
-describe(' GET /edit-stuff/ & POST /get-edit/:id - Edit an item', function() {
+describe(' GET /get-edit/:id & POST /edit-stuff/ - Edit an item', function() {
   it('should give a 200 response - /get-edit/:id', function(done) {
     request(app).get('/api/get-edit/:id').expect(200, done);
   })
   it('should return current info on item', function(done) {
-    request(app).get('/api/get-edit/' + i)
+    request(app).get('/api/get-edit/' + item)
       .end(function(err, res) {
         expect(res.body).to.have.property('userId', 1);
         expect(res.body).to.have.property('name', 'Yarn');
@@ -123,23 +139,23 @@ describe(' GET /edit-stuff/ & POST /get-edit/:id - Edit an item', function() {
         expect(res.body).to.have.property('description', 'Rainbow yarn, medium weight, great for scarves');
         expect(res.body).to.have.property('imageUrl', 'http://static1.squarespace.com/static/524de78fe4b055fcea8d1784/t/543ae028e4b039cd17f641a0/1413145514416/zauberzeug-superchunk-yarn-neon-rainbow-gradient');
         done();
-      })
-  })
+      });
+  });
   it('should give a 200 response - /edit-stuff/', function(done) {
     request(app).get('/api/edit-stuff/').expect(200, done);
-  })
+  });
   it('should update an item with new info', function(done) {
     request(app).put('/api/edit-stuff/')
       .type('form')
       .send({
-        id: i,
+        id: item,
         name: 'Pocket Sand',
         category: 'Tools',
         description: 'For defense.',
         imageUrl: 'http://www.csg.space/wp-content/uploads/2015/12/Sand.jpg'
       })
       .end(function(err, res) {
-        expect(res.body).to.have.property('id', i);
+        expect(res.body).to.have.property('id', item);
         expect(res.body).to.have.property('name', 'Pocket Sand');
         expect(res.body).to.have.property('category', 'Tools');
         expect(res.body).to.have.property('description', 'For defense');
@@ -149,26 +165,35 @@ describe(' GET /edit-stuff/ & POST /get-edit/:id - Edit an item', function() {
   });
 });
 
-describe('/delete-stuff - Delete an item', function() {
+// describe('GET lend-stuff/:id && POST lend-stuff/ - Lend an item', function() {
+//   it('should give a 200 response - lend-stuff/"id', function (done) {
+//     request(app).get('/api/lend-stuff/' + item).expect(200, done);
+//   });
+//   it('should bring a list of users to lend to', function(done) {
+//     request(app).get('/api/lend-stuff/' +item)
+//       .
+//   });
+// });
+
+describe('POST /delete-stuff - Delete an item', function() {
   it('should give a 200 response - /delete-stuff', function(done) {
     request(app).get('/api/delete-stuff').expect(200, done);
-  })
+  });
   it('should delete an item from the db', function(done) {
     request(app).put('/api/delete-stuff')
     .type('form')
     .send({
-      id: i
+      id: item
     })
     .end(function(err, res) {
-      // console.log("Err", err, "res", res);
       if (err) {
-        console.log(err);
+        console.log("Err" + err);
       } else {
-        console.log("Res:", res.body);
+        console.log("Res:" + res.body);
       }
       done();
-    })
-  })
+    });
+  });
 });
 
 // describe('Blobs', function() {

@@ -1,4 +1,4 @@
-//// SEARCH CTRL ////
+//// BORROW CTRL ////
 
 BorrowApp.controller('BorrowCtrl', 
   ['$scope', '$http', 'selectUser',
@@ -24,4 +24,4 @@ BorrowApp.controller('BorrowCtrl',
     }
   }
 
-}]); // END SearchCtrl
+}]); // END BorrowCtrl
