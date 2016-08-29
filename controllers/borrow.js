@@ -12,7 +12,7 @@ router.get('/users', function(req, res) {
 });
 
 router.get('/borrow-stuff/:id', function(req, res) {
-  console.log("Borrow", req.params.id);
+  // console.log("Borrow", req.params.id);
   db.item.findAll({
     where: {
       userId: { $not: req.params.id }
@@ -27,7 +27,7 @@ router.get('/borrow-stuff/:id', function(req, res) {
 });
 
 router.get('/lend-stuff/:id', function(req, res) {
-  console.log("Params", req.params.id);
+  // console.log("Params", req.params.id);
   db.item.findAll({
     where: {
       userId: req.params.id
@@ -42,26 +42,26 @@ router.get('/lend-stuff/:id', function(req, res) {
 });
 
 router.put('/lend-stuff/', function(req, res) {
-  console.log("Lend", req.body);
+  // console.log("Lend", req.body);
   db.item.find({
     where: {
       id: req.body.item_id
     }
   }).then(function(item) {
-    console.log("ITEM", item);
+    // console.log("ITEM", item);
     item.update({
       borrowerID: req.body.borrowerID,
       borrowed: true,
       dateBorrowed: new Date()
     })
     .then(function(data) {
-      res.send(data);
+      res.json(data);
     })
   })
 });
 
 router.put('/return-stuff/:id', function(req, res) {
-  console.log("ITEM", req.params.id)
+  // console.log("ITEM", req.params.id)
   db.item.find({
     where: {
       id: req.params.id
@@ -125,8 +125,7 @@ router.get('/get-edit/:id', function(req, res) {
 });
 
 router.put('/edit-stuff/', function(req, res) {
-  console.log("req.body", req.body)
-
+  // console.log("req.body", req.body)
   db.item.find({
     where: { id: req.body.id }
   }).then(function(item) {

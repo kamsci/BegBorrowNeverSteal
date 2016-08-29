@@ -61,7 +61,6 @@ describe('GET lend-stuff/:id - Dispalys items owned by currently-selected user f
   it('should return items with currently-selected userId(1)', function(done) {
     request(app).get('/api/lend-stuff/' + 1)
       .end(function(err, res) {
-        console.log(res.body);
         for(var i = 0; i < res.body.length; i++) {
           expect(res.body[i].userId).to.equal(1);
         }
@@ -77,11 +76,7 @@ describe('GET /borrowed-stuff/:id - Displays items borrowed by currently-selecte
   it('should return items with "borrowed"= "true" && "borrowerID"= 1', function(done) {
     request(app).get('/api/borrowed-stuff/' + 1)
       .type('form')
-      // .send({
-      //   borrowerID: 1
-      // })
       .end(function(err, res) {
-        console.log(res.body);
         for(var i = 0; i < res.body.length; i++) {
           expect(res.body[i].borrowed).to.equal(true);
           expect(res.body[i].borrowerID).to.equal(1);
@@ -165,15 +160,41 @@ describe(' GET /get-edit/:id & POST /edit-stuff/ - Edit an item', function() {
   });
 });
 
-// describe('GET lend-stuff/:id && POST lend-stuff/ - Lend an item', function() {
-//   it('should give a 200 response - lend-stuff/"id', function (done) {
-//     request(app).get('/api/lend-stuff/' + item).expect(200, done);
-//   });
-//   it('should bring a list of users to lend to', function(done) {
-//     request(app).get('/api/lend-stuff/' +item)
-//       .
-//   });
-// });
+describe('PUT /lend-stuff/ && PUT /return-stuff/:id - Lend/return an item', function() {
+  it('should give a 200 response - /lend-stuff/', function (done) {
+    request(app).get('/api/lend-stuff/').expect(200, done);
+  });
+  it('should update an item as "borrowed"="true" with borrower info', function(done) {
+    request(app).put('/api/lend-stuff/')
+      .type('form')
+      .send({
+        item_id: item,
+        borrowerID: 2,
+        borrowed: true,
+        dateBorrowed: new Date()
+      })
+      .end(function(err, res) {
+        console.log(res.body);
+        expect(res.body).to.have.property('id', item);
+        expect(res.body).to.have.property('borrowerID', '2');
+        expect(res.body).to.have.property('borrowed', true);
+        // expect(res.body.dateBorrowed).to.contain('foo')
+        done();
+      });
+  });
+  it('should give a 200 response - /return-stuff/:id', function(done) {
+    request(app).get('/api/return-stuff/' + item).expect(200, done);
+  });
+  it('should update an item as "borrowed"="false" & remove borrower info', function(done) {
+    request(app).put('/api/return-stuff/' + item)
+      .end(function(err, res) {
+        expect(res.body).to.have.property('borrowerID', null);
+        expect(res.body).to.have.property('borrowed', false);
+        expect(res.body).to.have.property('dateBorrowed', null);
+        done();
+      });
+  });
+});
 
 describe('POST /delete-stuff - Delete an item', function() {
   it('should give a 200 response - /delete-stuff', function(done) {
